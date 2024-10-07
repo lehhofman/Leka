@@ -49,7 +49,7 @@ O aplicativo Leka visa promover o aprendizado de habilidades de programação de
 - [ ] Criar o Documento de Arquitetura
     - [x] Diagrama de Classes
     - [ ] Diagrama de Atividades
-    - [ ] DER - Diagrama de Entidade Relacionamento<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo/tree/main/docs/projeto)
+    - [x] DER - Diagrama de Entidade Relacionamento<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo/tree/main/docs/projeto)
 
 ## Sprint 03 - Backlog
 - [ ] Desenvolver o Código
