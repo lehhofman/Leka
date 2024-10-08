@@ -60,7 +60,7 @@ O aplicativo Leka visa promover o aprendizado de habilidades de programação de
     - [ ] Testes unitários<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo.git)
 - [ ] Criar o Documento do Projeto
     - [ ] ABNT
-    - [ ] Dicionário de Dados<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo/tree/main/docs/projeto)
+    - [x] Dicionário de Dados<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo/tree/main/docs/projeto)
 
 ## Sprint 04 - Backlog
 - [ ] Criar o Documento de Teste
