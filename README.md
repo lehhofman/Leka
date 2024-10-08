@@ -46,15 +46,15 @@ O aplicativo Leka visa promover o aprendizado de habilidades de programação de
 - [x] EAP - Estrutura Analítica do Projeto
     - [x] Criar o Documento de Requisitos
     - [x] Diagrama de Caso de Uso
-- [ ] Criar o Documento de Arquitetura
+- [x] Criar o Documento de Arquitetura
     - [x] Diagrama de Classes
-    - [ ] Diagrama de Atividades
+    - [x] Diagrama de Atividades
     - [x] DER - Diagrama de Entidade Relacionamento<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo/tree/main/docs/projeto)
 
 ## Sprint 03 - Backlog
 - [ ] Desenvolver o Código
     - [ ] Front-End
-    - [ ] Banco de Dados
+    - [x] Banco de Dados
     - [ ] Back-End
     - [ ] Mobile
     - [ ] Testes unitários<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo.git)
