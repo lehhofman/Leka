@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import { View, TextInput, StyleSheet, Text, Image, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 const SignupScreen = () => {
@@ -10,28 +11,38 @@ const SignupScreen = () => {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (!validateEmail(email)) {
-      alert('Por favor, insira um email válido.');
+      Alert.alert('Erro', 'Por favor, insira um email válido.');
       return;
     }
 
     if (!validateCelular(celular)) {
-      alert('Por favor, insira um celular válido.');
+      Alert.alert('Erro', 'Por favor, insira um celular válido.');
       return;
     }
 
     if (!validateSenha(senha)) {
-      alert('A senha deve ter no mínimo 6 caracteres, incluindo 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.');
+      Alert.alert('Erro', 'A senha deve ter no mínimo 6 caracteres, incluindo 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.');
       return;
     }
 
     if (senha !== confirmarSenha) {
-      alert('Senhas não coincidem.');
+      Alert.alert('Erro', 'Senhas não coincidem.');
       return;
     }
 
-    navigation.navigate('Motivo');
+    try {
+      const newUser = { nome, email, celular, senha };
+      const usersString = await AsyncStorage.getItem('users');
+      const users = usersString ? JSON.parse(usersString) : [];
+      users.push(newUser);
+      await AsyncStorage.setItem('users', JSON.stringify(users));
+      Alert.alert('Sucesso', 'Conta criada com sucesso!');
+      navigation.navigate('Motivo');
+    } catch (error) {
+      Alert.alert('Erro', 'Ocorreu um erro ao cadastrar o usuário.');
+    }
   };
 
   const validateEmail = (email) => {
@@ -49,19 +60,10 @@ const SignupScreen = () => {
 
   const handleCelularChange = (text) => {
     const cleaned = text.replace(/\D/g, '');
-    
-    if (cleaned.length <= 10) {
-      const ddd = cleaned.slice(0, 2);
-      const numero = cleaned.slice(2);
-      const formatted = `(${ddd}) ${numero}`.trim();
-      setCelular(formatted);
-    } else {
-      const ddd = cleaned.slice(0, 2);
-      const numero = cleaned.slice(2, 7);
-      const numero2 = cleaned.slice(7, 11);
-      const formatted = `(${ddd}) ${numero}-${numero2}`.trim();
-      setCelular(formatted);
-    }
+    const formatted = cleaned.length <= 10 
+      ? `(${cleaned.slice(0, 2)}) ${cleaned.slice(2)}`
+      : `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7, 11)}`;
+    setCelular(formatted);
   };
 
   return (
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
     width: '80%',
     backgroundColor: '#f7e1c9',
     padding: 10,
-    marginBottom: 10,
+    marginBottom: 5,
     borderRadius: 5,
     color: '#4d1948', 
   },
@@ -129,8 +131,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 80,
     borderRadius: 25,
-    marginBottom: 20,
-    marginTop: 40,
+    marginBottom: 2,
+    marginTop:20,
   },
   startButtonText: {
     color: '#fff',
