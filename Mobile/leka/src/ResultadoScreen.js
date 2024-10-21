@@ -20,7 +20,7 @@ const ResultadoScreen = () => {
       <Text style={styles.resultado}>{resultado}</Text>
 
       <TouchableOpacity 
-        onPress={() => navigation.navigate('bemvindo')} 
+        onPress={() => navigation.navigate('Time')} 
         style={styles.button}
       >
         <Text style={styles.buttonText}>Seguir</Text>
