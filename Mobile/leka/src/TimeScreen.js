@@ -1,22 +1,31 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // Importação para navegação
+
+const gifSource = require('./assets/tempo.gif');
 
 const LearningTimeScreen = () => {
   const [selectedOption, setSelectedOption] = useState("Casual");
+  const navigation = useNavigation(); // Usar para navegação
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };
 
   const handleSubmit = () => {
-    Alert.alert(`Você selecionou o modo ${selectedOption}`);
+    // Ao clicar em continuar, navega para a tela 'Trilha' e passa a opção selecionada
+    navigation.navigate('Trilha', { selectedOption });
   };
 
   return (
     <View style={styles.screenContainer}>
+      <Image 
+        source={gifSource} 
+        style={styles.gif}
+        resizeMode="contain" 
+      />
       <Text style={styles.title}>Quanto tempo você quer gastar aprendendo?</Text>
-      <Text style={styles.subtitle}>Você sempre vai poder alterar esta meta!</Text>
-
+      
       <View style={styles.optionsContainer}>
         <TouchableOpacity
           style={[
@@ -65,24 +74,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  title: {
-    fontSize: 22,
-    color: "#fff",
-    marginBottom: 10,
+  gif: {
+    width: 300, 
+    height: 300, 
+    position: 'relative', 
+    top: -50,
   },
-  subtitle: {
-    color: "#ccc",
-    fontSize: 14,
-    marginBottom: 20,
+  title: {
+    fontSize: 25,
+    color: '#fff',
+    fontWeight: 'bold',
+    top: -80,
     textAlign: 'center',
   },
   optionsContainer: {
-    backgroundColor: "#5E4B80",
+    backgroundColor: "#cb9fc6",
     borderRadius: 10,
     padding: 20,
     marginBottom: 30,
     width: "80%",
     maxWidth: 300,
+    top: -50,
   },
   option: {
     padding: 10,
@@ -91,22 +103,28 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   selectedOption: {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: "#f7e1c9",
   },
   optionText: {
-    color: "#fff",
+    color: "#4d1948",
+    fontWeight: 'bold',
     fontSize: 16,
   },
   continueButton: {
-    backgroundColor: "#9E69F7",
-    paddingVertical: 10,
-    paddingHorizontal: 30,
+    backgroundColor: '#f7e1c9', 
+    padding: 15,
     borderRadius: 25,
-    marginTop: 20,
+    marginVertical: 10,
+    width: '80%', 
+    alignItems: 'center',
+    position: 'relative', 
+    top: -60,
   },
   continueButtonText: {
-    color: "#fff",
-    fontSize: 16,
+    color: '#4d1948',
+    fontSize: 18, 
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

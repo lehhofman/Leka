@@ -11,6 +11,8 @@ import InteressanteScreen from './src/InteressanteScreen';
 import ResultadoScreen from './src/ResultadoScreen';
 import WelcomeScreen from './src/WelcomeScreen';
 import TimeScreen from './src/TimeScreen';
+import TrilhaScreen from './src/TrilhaScreen';
+import LembreteScreen from './src/LembreteScreen';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +30,8 @@ const App = () => {
         <Stack.Screen name="Resultado" component={ResultadoScreen} options={{ headerShown: false }} />
         <Stack.Screen name="bemvindo" component={WelcomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Time" component={TimeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Trilha" component={TrilhaScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Lembrete" component={LembreteScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
