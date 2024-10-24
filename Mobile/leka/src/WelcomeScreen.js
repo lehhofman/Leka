@@ -18,8 +18,8 @@ const WelcomeScreen = () => {
       subtitle: 'Explore diversos jogos que tornam o aprendizado de programação divertido e interativo. Domine conceitos enquanto se diverte!',
     },
     {
-      title: 'Recompensas',
-      subtitle: 'Complete desafios e ganhe recompensas que o ajudarão a avançar nas suas habilidades. Aumentando seu conhecimento e seus progressos!',
+      title: 'Ganhe Recompensas',
+      subtitle: 'Complete desafios e ganhe recompensas que o ajudarão a avançar nas suas habilidades. Aumentando seu conhecimento!',
     },
   ];
 

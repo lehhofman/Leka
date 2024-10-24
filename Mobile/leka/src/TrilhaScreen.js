@@ -56,7 +56,7 @@ const TrilhaScreen = () => {
 
       <TouchableOpacity
         style={styles.continueButton}
-        onPress={() => navigation.navigate('Lembrete')} 
+        onPress={() => navigation.navigate('Game')} 
       >
         <Text style={styles.continueButtonText}>CONTINUAR</Text>
       </TouchableOpacity>

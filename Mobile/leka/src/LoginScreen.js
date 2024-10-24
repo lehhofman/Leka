@@ -25,7 +25,7 @@ const LoginScreen = ({ navigation }) => {
 
       if (user) {
         await AsyncStorage.setItem('currentUser', JSON.stringify(user));
-        navigation.navigate('bemvindo'); 
+        navigation.navigate('Game'); 
       } else {
         Alert.alert('Erro', 'Email ou senha incorretos!');
       }
