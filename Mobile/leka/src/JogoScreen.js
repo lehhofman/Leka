@@ -2,7 +2,11 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const GameScreen = () => {
+const GameScreen = ({ navigation }) => {
+  const goToGame = () => {
+    navigation.navigate('Pergunta');
+  };
+
   return (
     <View style={styles.container}>
       {/* Header Section */}
@@ -17,9 +21,9 @@ const GameScreen = () => {
 
       {/* Course Path Section */}
       <View style={styles.coursePath}>
-      <Text style={styles.courseTitle}>🏆 Progresso 0%</Text>
+        <Text style={styles.courseTitle}>🏆 Progresso 0%</Text>
         <ScrollView style={styles.phaseScroll} contentContainerStyle={styles.pathContainer}>
-        <View style={styles.extraSpace} />
+          <View style={styles.extraSpace} />
           {[...Array(10).keys()].map((phase) => (
             <View key={phase} style={styles.phaseWrapper}>
               {phase > 0 && (
@@ -30,14 +34,15 @@ const GameScreen = () => {
                   ]}
                 />
               )}
-              <View
+              <TouchableOpacity
+                onPress={goToGame}
                 style={[
                   styles.phaseCircle,
                   phase % 2 === 0 ? styles.leftPhase : styles.rightPhase, // Inverteu as bolinhas
                 ]}
               >
                 <Text style={styles.phaseText}>{phase + 1}</Text>
-              </View>
+              </TouchableOpacity>
             </View>
           ))}
           {/* Adiciona um espaço extra no final */}
@@ -149,8 +154,8 @@ const styles = StyleSheet.create({
     marginRight: 50,
   },
   phaseCircle: {
-    width: 90, // Aumenta o tamanho das bolinhas
-    height: 70, // Aumenta o tamanho das bolinhas
+    width: 90,
+    height: 70,
     borderRadius: 25, 
     backgroundColor: '#a469aa',
     justifyContent: 'center',
@@ -158,33 +163,33 @@ const styles = StyleSheet.create({
   },
   phaseText: {
     color: '#fff',
-    fontSize: 22, // Aumenta o tamanho do texto
+    fontSize: 22,
   },
   diagonalLine: {
     position: 'absolute',
-    width: 3, // Aumenta a espessura da linha
-    height: 118, // Aumenta o tamanho da linha
+    width: 3,
+    height: 118,
     backgroundColor: '#fff',
   },
   leftLine: {
-    left: 185, // Posição diagonal à esquerda
+    left: 185,
     transform: [{ rotate: '240deg' }],
-    top: -80, // Alinhamento vertical ajustado
+    top: -80,
   },
   rightLine: {
-    right: 180, // Posição diagonal à direita
+    right: 180,
     transform: [{ rotate: '-235deg' }],
-    top: -80, // Alinhamento vertical ajustado
+    top: -80,
   },
   extraSpace: {
-    height: 20, // Adiciona espaço no final para a última bolinha aparecer totalmente
+    height: 20,
   },
   bottomMenu: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
     backgroundColor: '#f7e1c9',
-    position: 'absolute', // Fixa o menu no final da tela
+    position: 'absolute',
     bottom: 0,
     width: '100%',
   },

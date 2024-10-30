@@ -13,6 +13,7 @@ import WelcomeScreen from './src/WelcomeScreen';
 import TimeScreen from './src/TimeScreen';
 import TrilhaScreen from './src/TrilhaScreen';
 import JogoScreen from './src/JogoScreen'; 
+import Pergunta from './src/perguntas'; 
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ const App = () => {
         <Stack.Screen name="Time" component={TimeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Trilha" component={TrilhaScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Game" component={JogoScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Pergunta" component={Pergunta} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
