@@ -14,6 +14,11 @@ import TimeScreen from './src/TimeScreen';
 import TrilhaScreen from './src/TrilhaScreen';
 import JogoScreen from './src/JogoScreen'; 
 import Pergunta from './src/perguntas'; 
+import jogo1 from './src/jogo'; 
+import jogo2 from './src/jogo2'; 
+import jogo3 from './src/jogo3'; 
+import jogo4 from './src/jogo4'; 
+import jogo5 from './src/jogo5'; 
 
 const Stack = createStackNavigator();
 
@@ -34,6 +39,11 @@ const App = () => {
         <Stack.Screen name="Trilha" component={TrilhaScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Game" component={JogoScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Pergunta" component={Pergunta} options={{ headerShown: false }} />
+        <Stack.Screen name="Jogo1" component={jogo1} options={{ headerShown: false }} />
+        <Stack.Screen name="Jogo2" component={jogo2} options={{ headerShown: false }} />
+        <Stack.Screen name="Jogo3" component={jogo3} options={{ headerShown: false }} />
+        <Stack.Screen name="Jogo4" component={jogo4} options={{ headerShown: false }} />
+        <Stack.Screen name="Jogo5" component={jogo5} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

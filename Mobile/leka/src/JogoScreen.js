@@ -3,8 +3,22 @@ import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-nati
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const GameScreen = ({ navigation }) => {
-  const goToGame = () => {
-    navigation.navigate('Pergunta');
+  const goToGame = (phase) => {
+    // Mapeia a fase para a tela correspondente
+    const screenMap = {
+      0: 'Pergunta',
+      1: 'Jogo1',
+      2: 'Jogo2',
+      3: 'Jogo3',
+      4: 'Jogo4',
+      5: 'Jogo5',
+      6: 'Jogo6',
+      7: 'Jogo7',
+      8: 'Jogo8',
+      9: 'Jogo9',
+    };
+
+    navigation.navigate(screenMap[phase]);
   };
 
   return (
@@ -28,18 +42,12 @@ const GameScreen = ({ navigation }) => {
             <View key={phase} style={styles.phaseWrapper}>
               {phase > 0 && (
                 <View
-                  style={[
-                    styles.diagonalLine,
-                    phase % 2 === 0 ? styles.leftLine : styles.rightLine, // Inverteu as linhas
-                  ]}
+                  style={[styles.diagonalLine, phase % 2 === 0 ? styles.leftLine : styles.rightLine]} 
                 />
               )}
               <TouchableOpacity
-                onPress={goToGame}
-                style={[
-                  styles.phaseCircle,
-                  phase % 2 === 0 ? styles.leftPhase : styles.rightPhase, // Inverteu as bolinhas
-                ]}
+                onPress={() => goToGame(phase)} 
+                style={[styles.phaseCircle, phase % 2 === 0 ? styles.leftPhase : styles.rightPhase]} 
               >
                 <Text style={styles.phaseText}>{phase + 1}</Text>
               </TouchableOpacity>
@@ -87,11 +95,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#f7e1c9',
-    padding:10,
+    padding: 10,
     width: 120,
-    color:'#4d1948',
+    color: '#4d1948',
     borderRadius: 15,
-    marginTop:20,
+    marginTop: 20,
   },
   score: {
     flexDirection: 'row',
@@ -99,9 +107,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#f7e1c9',
     padding: 10,
     width: 120,
-    color:'#4d1948',
+    color: '#4d1948',
     borderRadius: 15,
-    marginTop:20,
+    marginTop: 20,
   },
   headerText: {
     color: '#4d1948',
@@ -112,24 +120,19 @@ const styles = StyleSheet.create({
   coursePath: {
     alignItems: 'center',
     marginVertical: 20,
-    flex: 1, 
+    flex: 1,
     top: -20,
   },
   courseTitle: {
     color: '#4d1948',
     fontSize: 24,
     backgroundColor: '#f7e1c9',
-    width:340,
-    height:50,
-    textAlign: "center",
+    width: 340,
+    height: 50,
+    textAlign: 'center',
     borderRadius: 15,
     fontWeight: 'bold',
     paddingTop: 8,
-  },
-  progress: {
-    color: '#fff',
-    fontWeight: 'bold',
-    marginVertical: 20,
   },
   phaseScroll: {
     flex: 1,
@@ -140,7 +143,7 @@ const styles = StyleSheet.create({
   },
   phaseWrapper: {
     justifyContent: 'center',
-    marginVertical: 20, 
+    marginVertical: 20,
     position: 'relative',
     alignItems: 'center',
     width: '90%',
@@ -156,7 +159,7 @@ const styles = StyleSheet.create({
   phaseCircle: {
     width: 90,
     height: 70,
-    borderRadius: 25, 
+    borderRadius: 25,
     backgroundColor: '#a469aa',
     justifyContent: 'center',
     alignItems: 'center',
