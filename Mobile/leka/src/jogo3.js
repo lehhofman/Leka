@@ -7,146 +7,148 @@ const learningPathData = {
         modules: [
             {
                 id: 1,
-                title: "1. HTML5 Semântico e Acessibilidade",
-                description: "Aprofunde-se no uso de HTML semântico e nas melhores práticas de acessibilidade.",
+                title: "1. Introdução ao HTML e Acessibilidade",
+                description: "Aprenda os fundamentos do HTML e como tornar suas páginas acessíveis.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Adicione atributos ARIA a um menu de navegação para melhorar a acessibilidade.",
-                        exampleCode: "<nav aria-label='Menu Principal'>\n  <ul>\n    <li><a href='#' aria-current='page'>Home</a></li>\n  </ul>\n</nav>",
-                        hint: "Use ARIA para fornecer informações adicionais sobre elementos da interface.",
+                        instruction: "Adicione um título e uma descrição a uma página HTML.",
+                        exampleCode: "<h1>Bem-vindo ao meu site</h1>\n<p>Esta é uma descrição acessível.</p>",
+                        hint: "Use tags HTML semânticas para melhorar a acessibilidade.",
                         userResponse: "code",
                     },
                 ],
             },
             {
                 id: 2,
-                title: "2. CSS Grid Avançado e Layout Responsivo",
-                description: "Domine o CSS Grid para criar layouts responsivos e complexos.",
+                title: "2. CSS Básico e Estilização Simples",
+                description: "Descubra como usar o CSS para estilizar suas páginas.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Crie um layout de grade responsivo usando CSS Grid.",
-                        exampleCode: ".container {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));\n  gap: 10px;\n}\n.item {\n  background-color: #efefef;\n  padding: 20px;\n}",
-                        hint: "Use 'repeat()' e 'minmax()' para tornar o layout responsivo.",
+                        instruction: "Altere a cor de fundo de um elemento usando CSS.",
+                        exampleCode: "body {\n  background-color: lightblue;\n}",
+                        hint: "Use a propriedade 'background-color' para mudar a cor.",
                         userResponse: "code",
                     },
                 ],
             },
             {
                 id: 3,
-                title: "3. JavaScript ES6+ e Funcionalidades Modernas",
-                description: "Explore as novas funcionalidades do JavaScript ES6+, como destructuring e módulos.",
+                title: "3. Introdução ao JavaScript",
+                description: "Explore os conceitos básicos do JavaScript e como interagir com a página.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Utilize destructuring para extrair valores de um objeto.",
-                        exampleCode: "const user = { name: 'Alice', age: 25 };\nconst { name, age } = user;\nconsole.log(name, age);",
-                        hint: "Destructuring torna o código mais limpo e legível.",
+                        instruction: "Crie uma função simples que exibe uma mensagem.",
+                        exampleCode: "function mostrarMensagem() {\n  alert('Olá, mundo!');\n}",
+                        hint: "Use 'alert()' para mostrar mensagens ao usuário.",
                         userResponse: "code",
                     },
                 ],
             },
             {
                 id: 4,
-                title: "4. Web APIs e Manipulação Avançada do DOM",
-                description: "Aprenda a trabalhar com Web APIs, como a API de Fetch e a API de Web Storage.",
+                title: "4. Manipulação Básica do DOM",
+                description: "Aprenda como alterar o conteúdo da página usando JavaScript.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Crie uma aplicação que salva dados no Local Storage.",
-                        exampleCode: "localStorage.setItem('user', JSON.stringify(user));\nconst retrievedUser = JSON.parse(localStorage.getItem('user'));",
-                        hint: "Use JSON.stringify() para armazenar objetos no Local Storage.",
+                        instruction: "Mude o texto de um elemento HTML usando JavaScript.",
+                        exampleCode: "document.getElementById('meuElemento').innerText = 'Texto Atualizado';",
+                        hint: "Use 'getElementById()' para acessar elementos da página.",
                         userResponse: "code",
                     },
                 ],
             },
             {
                 id: 5,
-                title: "✏ Quiz Final Avançado",
+                title: "✏ Quiz Final Básico",
                 quiz: [
                     {
-                        question: "1. Qual é a função do atributo ARIA 'aria-label'?",
+                        question: "1. O que é HTML?",
                         answerType: "multipleChoice",
                         options: [
-                            "Define a largura de um elemento.",
-                            "Fornece uma descrição acessível de um elemento.",
-                            "Adiciona um estilo CSS.",
+                            "Uma linguagem de programação.",
+                            "Uma linguagem de marcação para estruturar páginas.",
+                            "Uma biblioteca de JavaScript.",
                         ],
-                        expectedAnswer: "Fornece uma descrição acessível de um elemento.",
+                        expectedAnswer: "Uma linguagem de marcação para estruturar páginas.",
                     },
                     {
-                        question: "2. O que a propriedade 'grid-template-areas' faz no CSS Grid?",
+                        question: "2. Para que serve o CSS?",
                         answerType: "multipleChoice",
                         options: [
-                            "Define a cor de fundo da grade.",
-                            "Especifica como os itens são organizados na grade.",
-                            "Cria animações de grade.",
+                            "Para adicionar interatividade às páginas.",
+                            "Para estilizar a aparência das páginas.",
+                            "Para estruturar o conteúdo das páginas.",
                         ],
-                        expectedAnswer: "Especifica como os itens são organizados na grade.",
+                        expectedAnswer: "Para estilizar a aparência das páginas.",
                     },
                     {
-                        question: "3. Como você exporta uma função em um módulo ES6?",
+                        question: "3. Como você declara uma variável no JavaScript?",
                         answerType: "multipleChoice",
                         options: [
-                            "module.export = minhaFuncao;",
-                            "export default minhaFuncao;",
-                            "export minhaFuncao;",
+                            "var minhaVariavel;",
+                            "minhaVariavel = var;",
+                            "declare minhaVariavel;",
                         ],
-                        expectedAnswer: "export default minhaFuncao;",
+                        expectedAnswer: "var minhaVariavel;",
                     },
                     {
-                        question: "4. Qual é o propósito do Local Storage no JavaScript?",
+                        question: "4. O que é o DOM?",
                         answerType: "multipleChoice",
                         options: [
-                            "Armazenar dados temporariamente em cache.",
-                            "Armazenar dados de forma persistente no navegador.",
-                            "Criar cookies.",
+                            "Um tipo de banco de dados.",
+                            "Uma representação em árvore da estrutura da página.",
+                            "Um estilo CSS.",
                         ],
-                        expectedAnswer: "Armazenar dados de forma persistente no navegador.",
+                        expectedAnswer: "Uma representação em árvore da estrutura da página.",
                     },
                     {
-                        question: "5. O que é destructuring no JavaScript?",
+                        question: "5. Qual método é usado para mostrar alertas no JavaScript?",
                         answerType: "multipleChoice",
                         options: [
-                            "Uma forma de manipular o DOM.",
-                            "Uma técnica para extrair dados de arrays e objetos.",
-                            "Um método para criar novos objetos.",
+                            "console.log()",
+                            "alert()",
+                            "message()",
                         ],
-                        expectedAnswer: "Uma técnica para extrair dados de arrays e objetos.",
+                        expectedAnswer: "alert()",
                     },
                 ],
             },
         ],
-    },
+    }
+
 };
 
-const gifSource = require('./assets/robo2.png');
 
-function LearningPath() {
-    const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
-    const navigation = useNavigation();
-    const currentModule = learningPathData.learningPath.modules[currentModuleIndex];
+    const gifSource = require('./assets/robo2.png');
 
-    const handleNext = () => {
-        if (currentModuleIndex < learningPathData.learningPath.modules.length - 1) {
-            setCurrentModuleIndex(currentModuleIndex + 1);
-        } else {
-            navigation.navigate('Game');
-        }
-    };
+    function LearningPath() {
+        const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
+const navigation = useNavigation();
+const currentModule = learningPathData.learningPath.modules[currentModuleIndex];
 
-    return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.title}>{learningPathData.learningPath.title}</Text>
-            <Text style={styles.description}>{learningPathData.learningPath.description}</Text>
-            {currentModule.quiz ? (
-                <Quiz quiz={currentModule.quiz} onFinish={handleNext} />
-            ) : (
-                <Module module={currentModule} onNext={handleNext} />
-            )}
-        </ScrollView>
-    );
+const handleNext = () => {
+    if (currentModuleIndex < learningPathData.learningPath.modules.length - 1) {
+        setCurrentModuleIndex(currentModuleIndex + 1);
+    } else {
+        navigation.navigate('Game');
+    }
+};
+
+return (
+    <ScrollView style={styles.container}>
+        <Text style={styles.title}>{learningPathData.learningPath.title}</Text>
+        <Text style={styles.description}>{learningPathData.learningPath.description}</Text>
+        {currentModule.quiz ? (
+            <Quiz quiz={currentModule.quiz} onFinish={handleNext} />
+        ) : (
+            <Module module={currentModule} onNext={handleNext} />
+        )}
+    </ScrollView>
+);
 }
 
 function Module({ module, onNext }) {

@@ -19,6 +19,10 @@ import jogo2 from './src/jogo2';
 import jogo3 from './src/jogo3'; 
 import jogo4 from './src/jogo4'; 
 import jogo5 from './src/jogo5'; 
+import jogo6 from './src/jogo6'; 
+import jogo7 from './src/jogo7'; 
+import jogo8 from './src/jogo8'; 
+import jogo9 from './src/jogo9'; 
 
 const Stack = createStackNavigator();
 
@@ -44,6 +48,10 @@ const App = () => {
         <Stack.Screen name="Jogo3" component={jogo3} options={{ headerShown: false }} />
         <Stack.Screen name="Jogo4" component={jogo4} options={{ headerShown: false }} />
         <Stack.Screen name="Jogo5" component={jogo5} options={{ headerShown: false }} />
+        <Stack.Screen name="Jogo6" component={jogo6} options={{ headerShown: false }} />
+        <Stack.Screen name="Jogo7" component={jogo7} options={{ headerShown: false }} />
+        <Stack.Screen name="Jogo8" component={jogo8} options={{ headerShown: false }} />
+        <Stack.Screen name="Jogo9" component={jogo9} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

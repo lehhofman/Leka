@@ -7,56 +7,56 @@ const learningPathData = {
         modules: [
             {
                 id: 1,
-                title: "1. Estrutura Básica do HTML",
-                description: "Aprenda a criar uma página HTML básica com elementos essenciais.",
+                title: "1. HTML: Elementos e Atributos",
+                description: "Aprenda sobre os principais elementos HTML e seus atributos.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Adicione uma imagem à sua página HTML.",
-                        exampleCode: "<img src='imagem.jpg' alt='Descrição da imagem'>",
-                        hint: "Use a tag <img> com os atributos 'src' e 'alt'.",
+                        instruction: "Adicione uma tabela à sua página HTML.",
+                        exampleCode: "<table>\n  <tr>\n    <th>Nome</th>\n    <th>Idade</th>\n  </tr>\n  <tr>\n    <td>João</td>\n    <td>25</td>\n  </tr>\n</table>",
+                        hint: "Use <table>, <tr>, <th> e <td> para criar a tabela.",
                         userResponse: "code",
                     },
                 ],
             },
             {
                 id: 2,
-                title: "2. CSS: Layouts Simples",
-                description: "Descubra como usar CSS para criar layouts simples.",
+                title: "2. CSS: Estilizando Elementos",
+                description: "Aprenda a aplicar estilos básicos a elementos HTML.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Crie um layout com duas colunas usando CSS.",
-                        exampleCode: ".container {\n  display: flex;\n}\n.coluna {\n  width: 50%;\n  padding: 10px;\n}",
-                        hint: "Utilize 'display: flex' para alinhar as colunas.",
+                        instruction: "Estilize um botão para parecer mais atraente.",
+                        exampleCode: "button {\n  background-color: blue;\n  color: white;\n  padding: 10px 20px;\n  border: none;\n  border-radius: 5px;\n}",
+                        hint: "Use propriedades como 'background-color' e 'border-radius'.",
                         userResponse: "code",
                     },
                 ],
             },
             {
                 id: 3,
-                title: "3. Variáveis e Tipos de Dados em JavaScript",
-                description: "Entenda como usar diferentes tipos de dados e variáveis em JavaScript.",
+                title: "3. JavaScript: Estruturas de Controle",
+                description: "Entenda como usar estruturas de controle como if e loops.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Crie uma variável que armazena seu nome e sua idade.",
-                        exampleCode: "let meuNome = 'Ana';\nlet minhaIdade = 30;",
-                        hint: "Use 'let' para variáveis que podem ser alteradas.",
+                        instruction: "Crie uma função que verifica se um número é par ou ímpar.",
+                        exampleCode: "function verificarPar(numero) {\n  if (numero % 2 === 0) {\n    return 'Par';\n  } else {\n    return 'Ímpar';\n  }\n}",
+                        hint: "Use o operador '%' para verificar a divisibilidade.",
                         userResponse: "code",
                     },
                 ],
             },
             {
                 id: 4,
-                title: "4. Eventos e Interatividade com JavaScript",
-                description: "Aprenda a adicionar eventos aos elementos da página para torná-la interativa.",
+                title: "4. Manipulação do DOM com JavaScript",
+                description: "Aprenda a modificar o conteúdo e estilo dos elementos na página.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Adicione um evento de clique a um botão que exibe um texto.",
-                        exampleCode: "<button id='meuBotao'>Clique aqui</button>\n<script>\ndocument.getElementById('meuBotao').onclick = function() {\n  alert('Você clicou no botão!');\n};\n</script>",
-                        hint: "Use 'onclick' para definir o evento de clique.",
+                        instruction: "Altere o texto de um cabeçalho ao clicar em um botão.",
+                        exampleCode: "<h2 id='titulo'>Título Original</h2>\n<button onclick='mudarTitulo()'>Alterar Título</button>\n<script>\nfunction mudarTitulo() {\n  document.getElementById('titulo').innerText = 'Novo Título!';\n}\n</script>",
+                        hint: "Use 'innerText' para mudar o texto de um elemento.",
                         userResponse: "code",
                     },
                 ],
@@ -66,60 +66,61 @@ const learningPathData = {
                 title: "✏ Quiz Final Básico",
                 quiz: [
                     {
-                        question: "1. Qual tag HTML é usada para adicionar um link?",
+                        question: "1. Qual tag HTML é usada para criar uma tabela?",
                         answerType: "multipleChoice",
                         options: [
-                            "<link>",
-                            "<a>",
-                            "<url>",
+                            "<list>",
+                            "<table>",
+                            "<data>",
                         ],
-                        expectedAnswer: "<a>",
+                        expectedAnswer: "<table>",
                     },
                     {
-                        question: "2. Qual propriedade CSS altera a largura de um elemento?",
+                        question: "2. Como você altera a cor de fundo de um elemento em CSS?",
                         answerType: "multipleChoice",
                         options: [
-                            "width",
-                            "size",
-                            "length",
+                            "background-color: yellow;",
+                            "color: yellow;",
+                            "bgcolor: yellow;",
                         ],
-                        expectedAnswer: "width",
+                        expectedAnswer: "background-color: yellow;",
                     },
                     {
-                        question: "3. O que é um array em JavaScript?",
+                        question: "3. O que faz o operador '%' em JavaScript?",
                         answerType: "multipleChoice",
                         options: [
-                            "Uma lista de valores.",
-                            "Uma função.",
-                            "Um objeto com propriedades.",
+                            "Divide dois números.",
+                            "Retorna o resto da divisão.",
+                            "Adiciona dois números.",
                         ],
-                        expectedAnswer: "Uma lista de valores.",
+                        expectedAnswer: "Retorna o resto da divisão.",
                     },
                     {
-                        question: "4. Como você seleciona todos os elementos de uma classe em JavaScript?",
+                        question: "4. Como você adiciona um novo elemento ao DOM?",
                         answerType: "multipleChoice",
                         options: [
-                            "document.getElementsByClass('minhaClasse');",
-                            "document.querySelectorAll('.minhaClasse');",
-                            "document.getElementById('.minhaClasse');",
+                            "document.createElement('div');",
+                            "document.addElement('div');",
+                            "document.insertElement('div');",
                         ],
-                        expectedAnswer: "document.querySelectorAll('.minhaClasse');",
+                        expectedAnswer: "document.createElement('div');",
                     },
                     {
-                        question: "5. Qual comando é usado para imprimir uma mensagem no console?",
+                        question: "5. O que é o método 'querySelector()'?",
                         answerType: "multipleChoice",
                         options: [
-                            "console.print('Olá!');",
-                            "console.log('Olá!');",
-                            "log.console('Olá!');",
+                            "Seleciona todos os elementos da página.",
+                            "Seleciona o primeiro elemento que corresponde ao seletor especificado.",
+                            "Cria um novo elemento na página.",
                         ],
-                        expectedAnswer: "console.log('Olá!');",
+                        expectedAnswer: "Seleciona o primeiro elemento que corresponde ao seletor especificado.",
                     },
                 ],
             },
         ],
     }
 };
+    
     
 
 const gifSource = require('./assets/robo2.png');

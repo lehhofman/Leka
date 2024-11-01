@@ -7,56 +7,56 @@ const learningPathData = {
         modules: [
             {
                 id: 1,
-                title: "1. Estrutura Básica do HTML",
-                description: "Aprenda a criar uma página HTML básica com elementos essenciais.",
+                title: "1. HTML: Estruturas de Texto",
+                description: "Aprenda a usar as tags HTML para formatar texto.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Adicione uma imagem à sua página HTML.",
-                        exampleCode: "<img src='imagem.jpg' alt='Descrição da imagem'>",
-                        hint: "Use a tag <img> com os atributos 'src' e 'alt'.",
+                        instruction: "Crie um parágrafo com um link.",
+                        exampleCode: "<p>Visite <a href='https://www.exemplo.com'>nosso site</a> para mais informações.</p>",
+                        hint: "Use a tag <a> para criar links.",
                         userResponse: "code",
                     },
                 ],
             },
             {
                 id: 2,
-                title: "2. CSS: Layouts Simples",
-                description: "Descubra como usar CSS para criar layouts simples.",
+                title: "2. CSS: Estilizando Listas",
+                description: "Descubra como aplicar estilos às listas em CSS.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Crie um layout com duas colunas usando CSS.",
-                        exampleCode: ".container {\n  display: flex;\n}\n.coluna {\n  width: 50%;\n  padding: 10px;\n}",
-                        hint: "Utilize 'display: flex' para alinhar as colunas.",
+                        instruction: "Estilize uma lista ordenada.",
+                        exampleCode: "ol {\n  list-style-type: square;\n  color: darkblue;\n}",
+                        hint: "Use 'list-style-type' para mudar a aparência da lista.",
                         userResponse: "code",
                     },
                 ],
             },
             {
                 id: 3,
-                title: "3. Variáveis e Tipos de Dados em JavaScript",
-                description: "Entenda como usar diferentes tipos de dados e variáveis em JavaScript.",
+                title: "3. JavaScript: Funções Simples",
+                description: "Aprenda a criar e usar funções básicas em JavaScript.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Crie uma variável que armazena seu nome e sua idade.",
-                        exampleCode: "let meuNome = 'Ana';\nlet minhaIdade = 30;",
-                        hint: "Use 'let' para variáveis que podem ser alteradas.",
+                        instruction: "Crie uma função que retorna a saudação de uma pessoa.",
+                        exampleCode: "function saudacao(nome) {\n  return 'Olá, ' + nome + '!';\n}",
+                        hint: "Funções podem ter parâmetros que são passados ao chamá-las.",
                         userResponse: "code",
                     },
                 ],
             },
             {
                 id: 4,
-                title: "4. Eventos e Interatividade com JavaScript",
-                description: "Aprenda a adicionar eventos aos elementos da página para torná-la interativa.",
+                title: "4. CSS: Flexbox para Layouts",
+                description: "Utilize Flexbox para criar layouts flexíveis.",
                 interactiveContent: [
                     {
                         step: 1,
-                        instruction: "Adicione um evento de clique a um botão que exibe um texto.",
-                        exampleCode: "<button id='meuBotao'>Clique aqui</button>\n<script>\ndocument.getElementById('meuBotao').onclick = function() {\n  alert('Você clicou no botão!');\n};\n</script>",
-                        hint: "Use 'onclick' para definir o evento de clique.",
+                        instruction: "Crie um layout horizontal com três itens usando Flexbox.",
+                        exampleCode: ".container {\n  display: flex;\n}\n.item {\n  flex: 1;\n  padding: 10px;\n  background-color: lightgray;\n}",
+                        hint: "Use 'display: flex' na div pai para alinhar os itens.",
                         userResponse: "code",
                     },
                 ],
@@ -66,60 +66,61 @@ const learningPathData = {
                 title: "✏ Quiz Final Básico",
                 quiz: [
                     {
-                        question: "1. Qual tag HTML é usada para adicionar um link?",
+                        question: "1. Qual tag HTML é usada para definir um parágrafo?",
                         answerType: "multipleChoice",
                         options: [
-                            "<link>",
-                            "<a>",
-                            "<url>",
+                            "<p>",
+                            "<paragraph>",
+                            "<text>",
                         ],
-                        expectedAnswer: "<a>",
+                        expectedAnswer: "<p>",
                     },
                     {
-                        question: "2. Qual propriedade CSS altera a largura de um elemento?",
+                        question: "2. Como você altera o tipo de marcador de uma lista não ordenada?",
                         answerType: "multipleChoice",
                         options: [
-                            "width",
-                            "size",
-                            "length",
+                            "list-style-type: circle;",
+                            "marker-type: circle;",
+                            "list-type: circle;",
                         ],
-                        expectedAnswer: "width",
+                        expectedAnswer: "list-style-type: circle;",
                     },
                     {
-                        question: "3. O que é um array em JavaScript?",
+                        question: "3. O que faz a palavra-chave 'return' em uma função JavaScript?",
                         answerType: "multipleChoice",
                         options: [
-                            "Uma lista de valores.",
-                            "Uma função.",
-                            "Um objeto com propriedades.",
+                            "Retorna um valor da função.",
+                            "Finaliza o script.",
+                            "Imprime um valor no console.",
                         ],
-                        expectedAnswer: "Uma lista de valores.",
+                        expectedAnswer: "Retorna um valor da função.",
                     },
                     {
-                        question: "4. Como você seleciona todos os elementos de uma classe em JavaScript?",
+                        question: "4. Qual propriedade CSS é usada para alinhar itens no centro em Flexbox?",
                         answerType: "multipleChoice",
                         options: [
-                            "document.getElementsByClass('minhaClasse');",
-                            "document.querySelectorAll('.minhaClasse');",
-                            "document.getElementById('.minhaClasse');",
+                            "align-items: center;",
+                            "justify-content: center;",
+                            "flex-align: center;",
                         ],
-                        expectedAnswer: "document.querySelectorAll('.minhaClasse');",
+                        expectedAnswer: "align-items: center;",
                     },
                     {
-                        question: "5. Qual comando é usado para imprimir uma mensagem no console?",
+                        question: "5. Como você cria um comentário em CSS?",
                         answerType: "multipleChoice",
                         options: [
-                            "console.print('Olá!');",
-                            "console.log('Olá!');",
-                            "log.console('Olá!');",
+                            "// Este é um comentário",
+                            "<!-- Este é um comentário -->",
+                            "/* Este é um comentário */",
                         ],
-                        expectedAnswer: "console.log('Olá!');",
+                        expectedAnswer: "/* Este é um comentário */",
                     },
                 ],
             },
         ],
     }
 };
+    
     
 
 const gifSource = require('./assets/robo2.png');

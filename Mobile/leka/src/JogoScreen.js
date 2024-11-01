@@ -4,21 +4,23 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const GameScreen = ({ navigation }) => {
   const goToGame = (phase) => {
-    // Mapeia a fase para a tela correspondente
     const screenMap = {
-      0: 'Pergunta',
-      1: 'Jogo1',
-      2: 'Jogo2',
-      3: 'Jogo3',
-      4: 'Jogo4',
-      5: 'Jogo5',
-      6: 'Jogo6',
-      7: 'Jogo7',
-      8: 'Jogo8',
-      9: 'Jogo9',
+      0: 'Pergunta', 
+      1: 'Jogo1',    
+      2: 'Jogo2',    
+      3: 'Jogo3',    
+      4: 'Jogo4',    
+      5: 'Jogo5',    
+      6: 'Jogo6',    
+      7: 'Jogo7',    
+      8: 'Jogo8',    
+      9: 'Jogo9',    
     };
 
-    navigation.navigate(screenMap[phase]);
+    const targetScreen = screenMap[phase];
+    if (targetScreen) {
+      navigation.navigate(targetScreen);
+    }
   };
 
   return (
@@ -53,7 +55,6 @@ const GameScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           ))}
-          {/* Adiciona um espaço extra no final */}
           <View style={styles.extraSpace} />
         </ScrollView>
       </View>
@@ -97,7 +98,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f7e1c9',
     padding: 10,
     width: 120,
-    color: '#4d1948',
     borderRadius: 15,
     marginTop: 20,
   },
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f7e1c9',
     padding: 10,
     width: 120,
-    color: '#4d1948',
     borderRadius: 15,
     marginTop: 20,
   },
