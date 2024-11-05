@@ -61,19 +61,19 @@ const GameScreen = ({ navigation }) => {
 
       {/* Bottom Menu */}
       <View style={styles.bottomMenu}>
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Jogo')}>
           <MaterialIcons name="games" size={30} color="#4d1948" />
           <Text style={styles.menuText}>Jogo</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Resumo')}>
           <MaterialIcons name="description" size={30} color="#4d1948" />
           <Text style={styles.menuText}>Resumo</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Amigos')}>
           <MaterialIcons name="group" size={30} color="#4d1948" />
           <Text style={styles.menuText}>Amigos</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Perfil')}>
           <MaterialIcons name="person" size={30} color="#4d1948" />
           <Text style={styles.menuText}>Perfil</Text>
         </TouchableOpacity>
@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
   },
   menuText: {
     color: '#4d1948',
+    fontWeight: 'bold',
     fontSize: 12,
   },
 });

@@ -23,6 +23,9 @@ import jogo6 from './src/jogo6';
 import jogo7 from './src/jogo7'; 
 import jogo8 from './src/jogo8'; 
 import jogo9 from './src/jogo9'; 
+import Perfil from './src/PerfilScreen'; 
+import Resumo from './src/ResumoScreen'; 
+import Amigos from './src/AmigosScreen'; 
 
 const Stack = createStackNavigator();
 
@@ -52,6 +55,9 @@ const App = () => {
         <Stack.Screen name="Jogo7" component={jogo7} options={{ headerShown: false }} />
         <Stack.Screen name="Jogo8" component={jogo8} options={{ headerShown: false }} />
         <Stack.Screen name="Jogo9" component={jogo9} options={{ headerShown: false }} />
+        <Stack.Screen name="Resumo" component={Resumo} options={{ headerShown: false }} />
+        <Stack.Screen name="Amigos" component={Amigos} options={{ headerShown: false }} />
+        <Stack.Screen name="Perfil" component={Perfil} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
