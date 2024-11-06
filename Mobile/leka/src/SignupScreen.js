@@ -33,13 +33,14 @@ const SignupScreen = () => {
     }
 
     try {
-      const newUser = { nome, email, celular, senha };
+      const userId = Math.random().toString(36).substring(2, 10); // Gerar ID aleatório
+      const newUser = { id: userId, nome, email, celular, senha };
       const usersString = await AsyncStorage.getItem('users');
       const users = usersString ? JSON.parse(usersString) : [];
       users.push(newUser);
       await AsyncStorage.setItem('users', JSON.stringify(users));
-      Alert.alert('Sucesso', 'Conta criada com sucesso!');
-      navigation.navigate('Motivo');
+      Alert.alert('Sucesso', 'Conta criada com sucesso! Seu ID é: ' + userId);
+      navigation.navigate('Motivo'); // Redireciona para a comunidade
     } catch (error) {
       Alert.alert('Erro', 'Ocorreu um erro ao cadastrar o usuário.');
     }

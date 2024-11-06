@@ -67,6 +67,7 @@ const ProfileScreen = () => {
         </TouchableOpacity>
       </View>
       <Text style={styles.name}>{user.nome}</Text>
+      <Text style={styles.userId}>ID: {user.id}</Text>
       <Text style={styles.contactInfo}>{user.email} | {user.celular}</Text>
 
       <TouchableOpacity style={styles.button}>
@@ -135,6 +136,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 60, 
+  },
+  userId: {
+    fontSize: 16,
+    color: '#f7e1c9',
+    marginBottom: 5,
   },
   profileImageContainer: {
     width: 180,
