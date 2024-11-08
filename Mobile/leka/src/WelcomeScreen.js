@@ -59,7 +59,7 @@ const WelcomeScreen = () => {
       <TouchableOpacity
         onPress={() => navigation.navigate('Signup')}
       >
-        <Text style={styles.signUpText}>EU JÁ TENHO UMA CONTA</Text>
+        <Text style={styles.signUpText}>CRIE JÁ SUA CONTA</Text>
       </TouchableOpacity>
     </View>
   );
