@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, Alert, Modal, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { FontAwesome } from '@expo/vector-icons';  
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
-const CommunityScreen = ({ navigation }) => { 
+const CommunityScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [acceptedFriendsModalVisible, setAcceptedFriendsModalVisible] = useState(false); 
+  const [createCommunityModalVisible, setCreateCommunityModalVisible] = useState(false); // Adicionado
+  const [acceptedFriendsModalVisible, setAcceptedFriendsModalVisible] = useState(false);
   const [friendId, setFriendId] = useState('');
   const [friends, setFriends] = useState([]);
   const [invites, setInvites] = useState([]);
   const [acceptedFriends, setAcceptedFriends] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [communityName, setCommunityName] = useState('');
+  const [communityDescription, setCommunityDescription] = useState('');
+  const [selectedParticipants, setSelectedParticipants] = useState([]);
+  const [communities, setCommunities] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -33,6 +38,12 @@ const CommunityScreen = ({ navigation }) => {
         const usersString = await AsyncStorage.getItem('users');
         const users = usersString ? JSON.parse(usersString) : [];
         setFriends(users);
+
+        const communitiesString = await AsyncStorage.getItem('communities');
+        const storedCommunities = communitiesString ? JSON.parse(communitiesString) : [];
+        setCommunities(storedCommunities.filter(community =>
+          community.createdBy === user.id || community.participants.includes(user.id)
+        ));
       }
     };
     loadData();
@@ -124,18 +135,139 @@ const CommunityScreen = ({ navigation }) => {
     }
   };
 
+  const createCommunity = async () => {
+    if (communityName.trim() === '' || communityDescription.trim() === '') {
+      Alert.alert('Erro', 'Por favor, preencha o nome e a descrição da comunidade.');
+      return;
+    }
+
+    try {
+      const newCommunity = {
+        id: Date.now().toString(),
+        name: communityName,
+        description: communityDescription,
+        createdBy: currentUser.id,
+        participants: [currentUser.id, ...selectedParticipants],
+      };
+
+      const updatedCommunities = [...communities, newCommunity];
+      setCommunities(updatedCommunities);
+      await AsyncStorage.setItem('communities', JSON.stringify(updatedCommunities));
+
+      Alert.alert('Comunidade Criada', `A comunidade "${communityName}" foi criada com sucesso!`);
+      setCommunityName('');
+      setCommunityDescription('');
+      setSelectedParticipants([]);
+    } catch (error) {
+      Alert.alert('Erro', 'Ocorreu um erro ao criar a comunidade.');
+    }
+  };
+
+  const deleteCommunity = async (communityId) => {
+    const updatedCommunities = communities.filter(community => community.id !== communityId);
+    setCommunities(updatedCommunities);
+    await AsyncStorage.setItem('communities', JSON.stringify(updatedCommunities));
+    Alert.alert('Comunidade Excluída', 'A comunidade foi excluída com sucesso!');
+  };
+
+  const toggleParticipantSelection = (friendId) => {
+    setSelectedParticipants(prevSelected => {
+      if (prevSelected.includes(friendId)) {
+        return prevSelected.filter(id => id !== friendId);
+      } else {
+        return [...prevSelected, friendId];
+      }
+    });
+  };
+
+  const enterCommunity = (community) => {
+    navigation.navigate('CommunityChat', { community });
+  };
+
+
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.addButton}>
-          <Text style={styles.buttonText}>Criar Comunidade</Text>
+        <TouchableOpacity style={styles.addButton} onPress={() => setCreateCommunityModalVisible(true)}>
+          <Text style={styles.TextButton}>Criar Comunidade</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
-          <Text style={styles.buttonText}>Adicionar Amigos</Text>
+          <Text style={styles.TextButton}>Adicionar Amigos</Text>
         </TouchableOpacity>
       </View>
 
+      {/* Modal Criar Comunidade */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={createCommunityModalVisible}
+        onRequestClose={() => setCreateCommunityModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <TouchableOpacity style={styles.closeButton} onPress={() => setCreateCommunityModalVisible(false)}>
+            <Text style={styles.closeText}>×</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.title}>Criar Comunidade</Text>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Nome da comunidade"
+              placeholderTextColor="#999"
+              value={communityName}
+              onChangeText={setCommunityName}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Descrição da comunidade"
+              placeholderTextColor="#999"
+              value={communityDescription}
+              onChangeText={setCommunityDescription}
+            />
+          </View>
+
+          <Text style={styles.subtitle}>Selecionar Participantes</Text>
+          <FlatList
+            data={friends}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={styles.listItem}
+                onPress={() => toggleParticipantSelection(item.id)}
+              >
+                <Text style={styles.listItemText}>
+                  {item.nome}
+                  {selectedParticipants.includes(item.id) && ' (Selecionado)'}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+
+          <TouchableOpacity style={styles.createButton} onPress={createCommunity}>
+            <Text style={styles.buttonText}>Criar</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+      {/* Modal Listar Comunidades */}
+      <FlatList
+        data={communities}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.communityItem}>
+            <Text style={styles.communityName}>{item.name}</Text>
+            <Text style={styles.communityDescription}>{item.description}</Text>
+            <TouchableOpacity style={styles.deleteButton} onPress={() => deleteCommunity(item.id)}>
+              <MaterialIcons name="delete" size={24} color="red" />
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+
+      {/* Modal Adicionar Amigos */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -147,7 +279,7 @@ const CommunityScreen = ({ navigation }) => {
             <Text style={styles.closeText}>×</Text>
           </TouchableOpacity>
 
-          <Text style={styles.title}>Comunidade de Amigos</Text>
+          <Text style={styles.title}>Adicionar Amigos</Text>
 
           <View style={styles.inputContainer}>
             <TextInput
@@ -165,7 +297,7 @@ const CommunityScreen = ({ navigation }) => {
           <Text style={styles.subtitle}>Convites Recebidos</Text>
           <FlatList
             data={invites}
-            keyExtractor={(item) => `${item.inviteFrom}-${item.inviteTo}`} 
+            keyExtractor={(item) => `${item.inviteFrom}-${item.inviteTo}`}
             renderItem={({ item }) => (
               <View style={styles.inviteItem}>
                 <Text style={styles.inviteText}>
@@ -188,7 +320,8 @@ const CommunityScreen = ({ navigation }) => {
         </View>
       </Modal>
 
-      <TouchableOpacity 
+      {/* Modal Amigos Aceitos */}
+      <TouchableOpacity
         style={styles.acceptedFriendsButton}
         onPress={() => setAcceptedFriendsModalVisible(true)}
       >
@@ -210,7 +343,7 @@ const CommunityScreen = ({ navigation }) => {
 
           <FlatList
             data={acceptedFriends}
-            keyExtractor={(item) => `${item.userId}-${item.friendId}`} 
+            keyExtractor={(item) => `${item.userId}-${item.friendId}`}
             renderItem={({ item }) => {
               const friendName = friends.find(friend => friend.id === (item.userId === currentUser.id ? item.friendId : item.userId))?.nome || 'Amigo';
               return (
@@ -226,7 +359,9 @@ const CommunityScreen = ({ navigation }) => {
           />
         </View>
       </Modal>
+      
 
+      {/* Menu Inferior */}
       <View style={styles.bottomMenu}>
         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Game')}>
           <MaterialIcons name="games" size={30} color="#4d1948" />
@@ -256,14 +391,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#333',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   buttonContainer: {
     position: 'absolute',
     top: 50,
-    left: 15, 
-    flexDirection: 'row', 
+    left: 15,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between', 
-    width: '80%', 
+    justifyContent: 'space-between',
+    width: '80%',
   },
   addButton: {
     backgroundColor: '#f7e1c9',
@@ -271,12 +412,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 8,
     marginRight: 10, 
-  },
-  buttonText: {
-    color: '#4d1948',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+},
+
+TextButton: {
+  color: '#4d1948',
+  fontSize: 16,
+  fontWeight: 'bold',
+},
   acceptedFriendsButton: {
     position: 'absolute',
     bottom: 90,
@@ -288,7 +430,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalContainer: {
-    backgroundColor: 'rgba(0,0,0,0.8)', 
+    backgroundColor: 'rgba(0,0,0,0.8)',
     padding: 20,
     borderRadius: 12,
     width: '80%',
@@ -399,10 +541,53 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   menuText: {
+
     color: '#4d1948',
     fontWeight: 'bold',
     fontSize: 12,
   },
+  communityItem: {
+    backgroundColor: '#f7e1c9',
+    marginBottom: 15,
+    width:360,
+    height: 90,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#4d1948',
+    position: 'relative',
+  },
+
+  communityName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#4d1948',
+    marginBottom: 10,
+    marginLeft:10,
+    marginTop:20,
+  },
+
+  communityDescription: {
+    fontSize: 14,
+    color: '#4d1948',  
+    marginBottom: 15,
+    marginLeft:10,
+  },
+
+  buttonText: {
+    color: '#4d1948',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+    marginBottom: 10,
+  },
+  deleteButton: {
+    top: -60,
+    right: -320,
+  },
 });
 
 export default CommunityScreen;
+
+
