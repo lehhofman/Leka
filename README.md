@@ -53,11 +53,11 @@ O aplicativo Leka visa promover o aprendizado de habilidades de programação de
 
 ## Sprint 03 - Backlog
 - [ ] Desenvolver o Código
-    - [ ] Front-End
+    - [x] Front-End
     - [x] Banco de Dados
     - [ ] Back-End
-    - [ ] Mobile
-    - [ ] Testes unitários<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo.git)
+    - [x] Mobile
+    - [x] Testes unitários<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo.git)
 - [ ] Criar o Documento do Projeto
     - [ ] ABNT
     - [x] Dicionário de Dados<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo/tree/main/docs/projeto)
@@ -67,11 +67,11 @@ O aplicativo Leka visa promover o aprendizado de habilidades de programação de
     - [ ] Teste de Unidade
     - [ ] Teste de Integração
     - [ ] Teste de Sistema - Ponto a Ponto
-    - [ ] Teste de Aceitação
+    - [x] Teste de Aceitação
 - [ ] Revisar o documento do projeto
-- [ ] Criar o Documento de Implantação
-    - [ ] Manual do Usuário
-    - [ ] Manual do Administrador se houver
+- [x] Criar o Documento de Implantação
+    - [x] Manual do Usuário
+    - [x] Manual do Administrador se houver
 
 ## Apresentação
 - [ ] Apresentação do Projeto
