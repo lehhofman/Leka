@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const GameScreen = ({ navigation }) => {
+  const [lives, setLives] = useState(5);
+  const [score, setScore] = useState(100);
+  const [progress, setProgress] = useState(0);
+
   const goToGame = (phase) => {
     const screenMap = {
       0: 'Pergunta', 
@@ -20,6 +24,14 @@ const GameScreen = ({ navigation }) => {
     const targetScreen = screenMap[phase];
     if (targetScreen) {
       navigation.navigate(targetScreen);
+
+      setTimeout(() => {
+        if (phase < 9) {
+          setLives(lives + 1); // Ganha 1 vida
+          setScore(score + 100); // Ganha 100 pontos
+          setProgress(progress + 10); // Atualiza o progresso (10% por fase)
+        }
+      }, 1000); // Simula um pequeno atraso antes de atualizar as vidas, pontos e progresso
     }
   };
 
@@ -28,16 +40,16 @@ const GameScreen = ({ navigation }) => {
       {/* Header Section */}
       <View style={styles.header}>
         <View style={styles.lives}>
-          <Text style={styles.headerText}>❤️ 5</Text>
+          <Text style={styles.headerText}>❤️ {lives}</Text>
         </View>
         <View style={styles.score}>
-          <Text style={styles.headerText}>🎯 200</Text>
+          <Text style={styles.headerText}>🎯 {score}</Text>
         </View>
       </View>
 
       {/* Course Path Section */}
       <View style={styles.coursePath}>
-        <Text style={styles.courseTitle}>🏆 Progresso 0%</Text>
+        <Text style={styles.courseTitle}>🏆 Progresso {progress}%</Text>
         <ScrollView style={styles.phaseScroll} contentContainerStyle={styles.pathContainer}>
           <View style={styles.extraSpace} />
           {[...Array(10).keys()].map((phase) => (

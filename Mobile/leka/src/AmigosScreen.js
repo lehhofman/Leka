@@ -208,7 +208,7 @@ const CommunityScreen = ({ navigation }) => {
                 <Text style={styles.communityDescription}>{item.description}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.deleteButton} onPress={() => deleteCommunity(item.id)}>
-                <MaterialIcons name="delete" size={24} color="red" />
+                <MaterialIcons name="delete" size={24} color="#cb9fc6" />
               </TouchableOpacity>
             </View>
           )}
@@ -591,7 +591,7 @@ const styles = StyleSheet.create({
   communityItem: {
     marginBottom: 10,
     padding: 10,
-    backgroundColor: '#f7e1c9',
+    backgroundColor: '#444',
     marginBottom: 15,
     width: 390,
     height: 90,
@@ -599,20 +599,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderRadius: 8,
-    borderColor: '#a4969aa',
-    position: 'relative',
+    borderWidth: 2, // Adicionando borda
+    borderColor: '#cb9fc6', // Cor da borda
   },
   communityName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#4d1948',
+    color: '#f7e1c9',
     marginBottom: 5,
     marginLeft: 10,
     marginTop: 20,
   },
   communityDescription: {
     fontSize: 14,
-    color: '#4d1948',
+    color: '#fff',
     marginBottom: 15,
     marginLeft: 10,
   },
