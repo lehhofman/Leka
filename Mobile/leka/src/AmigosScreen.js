@@ -181,10 +181,8 @@ const CommunityScreen = ({ navigation }) => {
   };
 
   const enterCommunity = (community) => {
-    navigation.navigate('CommunityChat', { community });
+    navigation.navigate('CommunityScreen', { community });
   };
-
-
 
   return (
     <View style={styles.container}>
@@ -196,6 +194,25 @@ const CommunityScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
           <Text style={styles.TextButton}>Adicionar Amigos</Text>
         </TouchableOpacity>
+      </View>
+
+      {/* Lista de Comunidades Criadas */}
+      <View style={styles.communitiesContainer}>
+        <FlatList
+          data={communities}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.communityItem}>
+              <TouchableOpacity onPress={() => enterCommunity(item)}>
+                <Text style={styles.communityName}>{item.name}</Text>
+                <Text style={styles.communityDescription}>{item.description}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.deleteButton} onPress={() => deleteCommunity(item.id)}>
+                <MaterialIcons name="delete" size={24} color="red" />
+              </TouchableOpacity>
+            </View>
+          )}
+        />
       </View>
 
       {/* Modal Criar Comunidade */}
@@ -212,16 +229,21 @@ const CommunityScreen = ({ navigation }) => {
 
           <Text style={styles.title}>Criar Comunidade</Text>
 
-          <View style={styles.inputContainer}>
+          <View style={styles.inputContainerr}>
+            {/* Nome da comunidade */}
+            <Text style={styles.inputLabel}>Nome da comunidade:</Text>
             <TextInput
-              style={styles.input}
+              style={styles.inputt}
               placeholder="Nome da comunidade"
               placeholderTextColor="#999"
               value={communityName}
               onChangeText={setCommunityName}
             />
+
+            {/* Descrição da comunidade */}
+            <Text style={styles.inputLabel}>Descrição da comunidade:</Text>
             <TextInput
-              style={styles.input}
+              style={styles.inputt}
               placeholder="Descrição da comunidade"
               placeholderTextColor="#999"
               value={communityDescription}
@@ -229,7 +251,7 @@ const CommunityScreen = ({ navigation }) => {
             />
           </View>
 
-          <Text style={styles.subtitle}>Selecionar Participantes</Text>
+          <Text style={styles.inputLabel}>Selecionar Participantes</Text>
           <FlatList
             data={friends}
             keyExtractor={(item) => item.id}
@@ -252,20 +274,6 @@ const CommunityScreen = ({ navigation }) => {
         </View>
       </Modal>
 
-      {/* Modal Listar Comunidades */}
-      <FlatList
-        data={communities}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.communityItem}>
-            <Text style={styles.communityName}>{item.name}</Text>
-            <Text style={styles.communityDescription}>{item.description}</Text>
-            <TouchableOpacity style={styles.deleteButton} onPress={() => deleteCommunity(item.id)}>
-              <MaterialIcons name="delete" size={24} color="red" />
-            </TouchableOpacity>
-          </View>
-        )}
-      />
 
       {/* Modal Adicionar Amigos */}
       <Modal
@@ -290,32 +298,19 @@ const CommunityScreen = ({ navigation }) => {
               onChangeText={setFriendId}
             />
             <TouchableOpacity style={styles.searchButton} onPress={addFriend}>
-              <Text style={styles.searchButtonText}>Buscar</Text>
+              <FontAwesome name="search" size={24} color="black" />
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.subtitle}>Convites Recebidos</Text>
+          <Text style={styles.subtitle}>Convites Pendentes</Text>
           <FlatList
             data={invites}
-            keyExtractor={(item) => `${item.inviteFrom}-${item.inviteTo}`}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View style={styles.inviteItem}>
-                <Text style={styles.inviteText}>
-                  {item.inviteFrom === currentUser.id
-                    ? `Você convidou ${friends.find(friend => friend.id === item.inviteTo)?.nome || 'alguém'}. Status: ${item.status}`
-                    : `${friends.find(friend => friend.id === item.inviteFrom)?.nome || 'Alguém'} te enviou um convite. Status: ${item.status}`}
-                </Text>
-                {item.inviteFrom !== currentUser.id && item.status === 'pendente' && (
-                  <TouchableOpacity
-                    style={styles.acceptButton}
-                    onPress={() => acceptInvite(item)}
-                  >
-                    <Text style={styles.acceptButtonText}>Aceitar</Text>
-                  </TouchableOpacity>
-                )}
+                <Text style={styles.inviteText}>Convite para {item.nome}</Text>
               </View>
             )}
-            style={styles.list}
           />
         </View>
       </Modal>
@@ -359,7 +354,6 @@ const CommunityScreen = ({ navigation }) => {
           />
         </View>
       </Modal>
-      
 
       {/* Menu Inferior */}
       <View style={styles.bottomMenu}>
@@ -387,9 +381,30 @@ const CommunityScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#333',
-    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    marginTop: 40,
+  },
+  addButton: {
+    backgroundColor: '#f7e1c9',
+    padding: 10,
+    borderRadius: 5,
+    flex: 1,
+    marginHorizontal: 5,
     alignItems: 'center',
+  },
+  TextButton: {
+    color: '#4d1948',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  communitiesContainer: {
+    flex: 1,
   },
   container: {
     flex: 1,
@@ -397,28 +412,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonContainer: {
-    position: 'absolute',
-    top: 50,
-    left: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '80%',
+  inputLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#f7e1c9',
+    marginBottom: 5,
   },
-  addButton: {
-    backgroundColor: '#f7e1c9',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 8,
-    marginRight: 10, 
-},
-
-TextButton: {
-  color: '#4d1948',
-  fontSize: 16,
-  fontWeight: 'bold',
-},
   acceptedFriendsButton: {
     position: 'absolute',
     bottom: 90,
@@ -457,11 +456,49 @@ TextButton: {
     textAlign: 'center',
     marginBottom: 15,
   },
-  subtitle: {
-    color: '#f7e1c9',
-    fontSize: 18,
-    fontWeight: 'bold',
+  createButton: {
+    backgroundColor: '#8e44ad', // Cor roxa para o botão
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 8,
     marginTop: 20,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#f5f5dc', // Cor bege para o texto
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  inputContainer: {
+    width: '80%',
+    marginBottom: 20,
+  },
+  inputContainerr: {
+    width: '80%',
+    marginBottom: 20,
+  },
+  inputt: {
+    height: 40,
+    borderColor: '#8e44ad', // Roxo para as bordas
+    borderWidth: 2,
+    borderRadius: 8,
+    paddingLeft: 10,
+    marginBottom: 15,
+    color: '#fff',
+  },
+  input: {
+    height: 40,
+    borderColor: '#8e44ad', // Roxo para as bordas
+    borderWidth: 2,
+    borderRadius: 8,
+    paddingLeft: 10,
+    marginBottom: 15,
+    color: '#fff',
+  },
+  subtitlee: {
+    fontSize: 18,
+    color: '#fff',
+    marginBottom: 10,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -546,48 +583,44 @@ TextButton: {
     fontWeight: 'bold',
     fontSize: 12,
   },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
   communityItem: {
+    marginBottom: 10,
+    padding: 10,
     backgroundColor: '#f7e1c9',
     marginBottom: 15,
-    width:360,
+    width: 390,
     height: 90,
     alignSelf: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 8,
-    borderColor: '#4d1948',
+    borderColor: '#a4969aa',
     position: 'relative',
   },
-
   communityName: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#4d1948',
-    marginBottom: 10,
-    marginLeft:10,
-    marginTop:20,
+    marginBottom: 5,
+    marginLeft: 10,
+    marginTop: 20,
   },
-
   communityDescription: {
     fontSize: 14,
-    color: '#4d1948',  
-    marginBottom: 15,
-    marginLeft:10,
-  },
-
-  buttonText: {
     color: '#4d1948',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
-    marginBottom: 10,
+    marginBottom: 15,
+    marginLeft: 10,
   },
   deleteButton: {
-    top: -60,
-    right: -320,
+    top: -65,
+    right: -346,
   },
+
 });
 
 export default CommunityScreen;
-
-

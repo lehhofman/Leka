@@ -127,10 +127,11 @@ function LearningPath() {
         if (currentModuleIndex < learningPathData.learningPath.modules.length - 1) {
             setCurrentModuleIndex(currentModuleIndex + 1);
         } else {
-            navigation.navigate('Game');
+            // Passa a pontuação para a próxima tela, no caso, o 'Game'
+            navigation.navigate('Game', { score });
         }
     };
-
+    
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>{learningPathData.learningPath.title}</Text>

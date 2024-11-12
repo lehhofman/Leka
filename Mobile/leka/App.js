@@ -26,6 +26,7 @@ import jogo9 from './src/jogo9';
 import Perfil from './src/PerfilScreen'; 
 import Resumo from './src/ResumoScreen'; 
 import Amigos from './src/AmigosScreen'; 
+import CommunityScreen from './src/CommunityScreen'; 
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,7 @@ const App = () => {
         <Stack.Screen name="Resumo" component={Resumo} options={{ headerShown: false }} />
         <Stack.Screen name="Amigos" component={Amigos} options={{ headerShown: false }} />
         <Stack.Screen name="Perfil" component={Perfil} options={{ headerShown: false }} />
+        <Stack.Screen name="CommunityScreen" component={CommunityScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
