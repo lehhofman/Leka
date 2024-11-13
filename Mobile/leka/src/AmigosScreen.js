@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 const CommunityScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [createCommunityModalVisible, setCreateCommunityModalVisible] = useState(false); // Adicionado
+  const [createCommunityModalVisible, setCreateCommunityModalVisible] = useState(false);
   const [acceptedFriendsModalVisible, setAcceptedFriendsModalVisible] = useState(false);
   const [friendId, setFriendId] = useState('');
   const [friends, setFriends] = useState([]);
@@ -215,7 +215,88 @@ const CommunityScreen = ({ navigation }) => {
         />
       </View>
 
-      {/* Modal Criar Comunidade */}
+      {/* Modal Adicionar Amigos */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+            <Text style={styles.closeText}>×</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.title}>Adicionar Amigos</Text>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="ID do amigo"
+              placeholderTextColor="#999"
+              value={friendId}
+              onChangeText={setFriendId}
+            />
+            <TouchableOpacity style={styles.searchButton} onPress={addFriend}>
+              <FontAwesome name="search" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+
+          <Text style={styles.subtitle}>Convites Pendentes</Text>
+          <FlatList
+            data={invites}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.inviteItem}>
+                <Text style={styles.inviteText}>Convite para {item.nome}</Text>
+                <TouchableOpacity onPress={() => acceptInvite(item)} style={styles.acceptButton}>
+                  <Text style={styles.acceptButtonText}>Aceitar</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        </View>
+      </Modal>
+      {/* Modal Amigos Aceitos */}
+      <TouchableOpacity
+        style={styles.acceptedFriendsButton}
+        onPress={() => setAcceptedFriendsModalVisible(true)}
+      >
+        <FontAwesome name="user" size={24} color="#4d1948" />
+      </TouchableOpacity>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={acceptedFriendsModalVisible}
+        onRequestClose={() => setAcceptedFriendsModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <TouchableOpacity style={styles.closeButton} onPress={() => setAcceptedFriendsModalVisible(false)}>
+            <Text style={styles.closeText}>×</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.title}>Amigos</Text>
+
+          <FlatList
+            data={acceptedFriends}
+            keyExtractor={(item) => `${item.userId}-${item.friendId}`}
+            renderItem={({ item }) => {
+              const friendName = friends.find(friend => friend.id === (item.userId === currentUser.id ? item.friendId : item.userId))?.nome || 'Amigo';
+              return (
+                <View style={styles.listItem}>
+                  <Image source={require('./assets/logo.png')} style={styles.profileImage} />
+                  <Text style={styles.listItemText}>
+                    {friendName}
+                  </Text>
+                </View>
+              );
+            }}
+            style={styles.list}
+          />
+        </View>
+      </Modal>
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -274,87 +355,6 @@ const CommunityScreen = ({ navigation }) => {
         </View>
       </Modal>
 
-
-      {/* Modal Adicionar Amigos */}
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-            <Text style={styles.closeText}>×</Text>
-          </TouchableOpacity>
-
-          <Text style={styles.title}>Adicionar Amigos</Text>
-
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="ID do amigo"
-              placeholderTextColor="#999"
-              value={friendId}
-              onChangeText={setFriendId}
-            />
-            <TouchableOpacity style={styles.searchButton} onPress={addFriend}>
-              <FontAwesome name="search" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
-
-          <Text style={styles.subtitle}>Convites Pendentes</Text>
-          <FlatList
-            data={invites}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.inviteItem}>
-                <Text style={styles.inviteText}>Convite para {item.nome}</Text>
-              </View>
-            )}
-          />
-        </View>
-      </Modal>
-
-      {/* Modal Amigos Aceitos */}
-      <TouchableOpacity
-        style={styles.acceptedFriendsButton}
-        onPress={() => setAcceptedFriendsModalVisible(true)}
-      >
-        <FontAwesome name="user" size={24} color="#4d1948" />
-      </TouchableOpacity>
-
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={acceptedFriendsModalVisible}
-        onRequestClose={() => setAcceptedFriendsModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <TouchableOpacity style={styles.closeButton} onPress={() => setAcceptedFriendsModalVisible(false)}>
-            <Text style={styles.closeText}>×</Text>
-          </TouchableOpacity>
-
-          <Text style={styles.title}>Amigos</Text>
-
-          <FlatList
-            data={acceptedFriends}
-            keyExtractor={(item) => `${item.userId}-${item.friendId}`}
-            renderItem={({ item }) => {
-              const friendName = friends.find(friend => friend.id === (item.userId === currentUser.id ? item.friendId : item.userId))?.nome || 'Amigo';
-              return (
-                <View style={styles.listItem}>
-                  <Image source={require('./assets/logo.png')} style={styles.profileImage} />
-                  <Text style={styles.listItemText}>
-                    {friendName}
-                  </Text>
-                </View>
-              );
-            }}
-            style={styles.list}
-          />
-        </View>
-      </Modal>
-
       {/* Menu Inferior */}
       <View style={styles.bottomMenu}>
         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Game')}>
@@ -405,6 +405,18 @@ const styles = StyleSheet.create({
   },
   communitiesContainer: {
     flex: 1,
+  },
+  acceptButton: {
+    backgroundColor: '#4d1948', // roxa
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 5,
+    marginTop: 8,
+  },
+  acceptButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   container: {
     flex: 1,
