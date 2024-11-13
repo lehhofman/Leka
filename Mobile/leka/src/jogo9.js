@@ -211,7 +211,7 @@ function Quiz({ quiz, onFinish }) {
 
         if (score >= 3) {
             Alert.alert("Parabéns!", `Você acertou ${score} de ${quiz.length} perguntas. Você foi aprovado!`);
-            navigation.navigate('Game', { score });
+            navigation.navigate('Certificado', { score });
         } else {
             Alert.alert("Que pena!", `Você acertou apenas ${score} de ${quiz.length} perguntas. Tente novamente!`);
             resetQuiz();

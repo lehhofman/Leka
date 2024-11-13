@@ -147,13 +147,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   userMessage: {
-    backgroundColor: '#775287', // Verde para mensagens do usuário
-    alignSelf: 'flex-end', // Alinha à direita
+    backgroundColor: '#775287',
+    alignSelf: 'flex-end',
     maxWidth: '90%',
   },
   otherMessage: {
-    backgroundColor: '#a469aa', // Cor para mensagens de outros
-    alignSelf: 'flex-start', // Alinha à esquerda
+    backgroundColor: '#a469aa', 
+    alignSelf: 'flex-start', 
     maxWidth: '80%',
   },
   username: {

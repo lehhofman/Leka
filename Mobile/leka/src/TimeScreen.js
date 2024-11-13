@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Importação para navegação
+import { useNavigation } from '@react-navigation/native'; 
 
 const gifSource = require('./assets/tempo.gif');
 
 const LearningTimeScreen = () => {
   const [selectedOption, setSelectedOption] = useState("Casual");
-  const navigation = useNavigation(); // Usar para navegação
+  const navigation = useNavigation(); 
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };
 
   const handleSubmit = () => {
-    // Ao clicar em continuar, navega para a tela 'Trilha' e passa a opção selecionada
     navigation.navigate('Trilha', { selectedOption });
   };
 

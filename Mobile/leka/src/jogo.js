@@ -127,7 +127,6 @@ function LearningPath() {
         if (currentModuleIndex < learningPathData.learningPath.modules.length - 1) {
             setCurrentModuleIndex(currentModuleIndex + 1);
         } else {
-            // Passa a pontuação para a próxima tela, no caso, o 'Game'
             navigation.navigate('Game', { score });
         }
     };

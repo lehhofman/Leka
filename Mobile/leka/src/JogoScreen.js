@@ -1,24 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GameScreen = ({ navigation }) => {
   const [lives, setLives] = useState(5);
   const [score, setScore] = useState(100);
   const [progress, setProgress] = useState(0);
 
+  useEffect(() => {
+    const loadProgress = async () => {
+      try {
+        const savedProgress = await AsyncStorage.getItem('userProgress');
+        if (savedProgress !== null) {
+          setProgress(parseInt(savedProgress, 10));
+        }
+      } catch (error) {
+        console.error('Erro ao carregar o progresso:', error);
+      }
+    };
+    loadProgress();
+  }, []);
+
+  useEffect(() => {
+    const saveProgress = async () => {
+      try {
+        await AsyncStorage.setItem('userProgress', progress.toString());
+      } catch (error) {
+        console.error('Erro ao salvar o progresso:', error);
+      }
+    };
+    saveProgress();
+  }, [progress]);
+
   const goToGame = (phase) => {
     const screenMap = {
-      0: 'Pergunta', 
-      1: 'Jogo1',    
-      2: 'Jogo2',    
-      3: 'Jogo3',    
-      4: 'Jogo4',    
-      5: 'Jogo5',    
-      6: 'Jogo6',    
-      7: 'Jogo7',    
-      8: 'Jogo8',    
-      9: 'Jogo9',    
+      0: 'Pergunta',
+      1: 'Jogo1',
+      2: 'Jogo2',
+      3: 'Jogo3',
+      4: 'Jogo4',
+      5: 'Jogo5',
+      6: 'Jogo6',
+      7: 'Jogo7',
+      8: 'Jogo8',
+      9: 'Jogo9',
     };
 
     const targetScreen = screenMap[phase];
@@ -27,17 +53,16 @@ const GameScreen = ({ navigation }) => {
 
       setTimeout(() => {
         if (phase < 9) {
-          setLives(lives + 1); // Ganha 1 vida
-          setScore(score + 100); // Ganha 100 pontos
-          setProgress(progress + 10); // Atualiza o progresso (10% por fase)
+          setLives(lives + 1);
+          setScore(score + 100);
+          setProgress(progress + 10);
         }
-      }, 1000); // Simula um pequeno atraso antes de atualizar as vidas, pontos e progresso
+      }, 1000);
     }
   };
 
   return (
     <View style={styles.container}>
-      {/* Header Section */}
       <View style={styles.header}>
         <View style={styles.lives}>
           <Text style={styles.headerText}>❤️ {lives}</Text>
@@ -47,7 +72,6 @@ const GameScreen = ({ navigation }) => {
         </View>
       </View>
 
-      {/* Course Path Section */}
       <View style={styles.coursePath}>
         <Text style={styles.courseTitle}>🏆 Progresso {progress}%</Text>
         <ScrollView style={styles.phaseScroll} contentContainerStyle={styles.pathContainer}>
@@ -56,12 +80,18 @@ const GameScreen = ({ navigation }) => {
             <View key={phase} style={styles.phaseWrapper}>
               {phase > 0 && (
                 <View
-                  style={[styles.diagonalLine, phase % 2 === 0 ? styles.leftLine : styles.rightLine]} 
+                  style={[
+                    styles.diagonalLine,
+                    phase % 2 === 0 ? styles.leftLine : styles.rightLine,
+                  ]}
                 />
               )}
               <TouchableOpacity
-                onPress={() => goToGame(phase)} 
-                style={[styles.phaseCircle, phase % 2 === 0 ? styles.leftPhase : styles.rightPhase]} 
+                onPress={() => goToGame(phase)}
+                style={[
+                  styles.phaseCircle,
+                  phase % 2 === 0 ? styles.leftPhase : styles.rightPhase,
+                ]}
               >
                 <Text style={styles.phaseText}>{phase + 1}</Text>
               </TouchableOpacity>
@@ -71,7 +101,6 @@ const GameScreen = ({ navigation }) => {
         </ScrollView>
       </View>
 
-      {/* Bottom Menu */}
       <View style={styles.bottomMenu}>
         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Jogo')}>
           <MaterialIcons name="games" size={30} color="#4d1948" />

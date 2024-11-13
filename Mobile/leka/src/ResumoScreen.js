@@ -75,7 +75,7 @@ const SummaryScreen = ({ navigation }) => {
     setDescription(item.description);
     setSummary(item.summary);
     setIsModalVisible(true);
-    deleteSummary(index); // Remove the old one before editing
+    deleteSummary(index);
   };
 
   const renderSummaryItem = ({ item, index }) => (
@@ -83,7 +83,6 @@ const SummaryScreen = ({ navigation }) => {
       <Text style={styles.cardTitle}>{item.title}</Text>
       <Text style={styles.cardDescription}>{item.description}</Text>
 
-      {/* Botões de Editar e Excluir (um ao lado do outro) */}
       <View style={styles.cardActions}>
         <TouchableOpacity onPress={() => editSummary(index)} style={styles.actionButton}>
           <MaterialIcons name="edit" size={24} color="#cb9fc6" />
@@ -107,12 +106,10 @@ const SummaryScreen = ({ navigation }) => {
         style={styles.summaryList}
       />
 
-      {/* Botão para abrir o modal */}
       <TouchableOpacity style={styles.addButton} onPress={openModal}>
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>
 
-      {/* Modal para adicionar resumo */}
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
@@ -153,7 +150,6 @@ const SummaryScreen = ({ navigation }) => {
         </View>
       </Modal>
 
-      {/* Modal de Resumo Completo */}
       <Modal visible={isSummaryVisible} animationType="slide" transparent={true}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
@@ -167,7 +163,6 @@ const SummaryScreen = ({ navigation }) => {
         </View>
       </Modal>
 
-      {/* Menu Inferior */}
       <View style={styles.bottomMenu}>
         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Game')}>
           <MaterialIcons name="games" size={30} color="#4d1948" />
@@ -236,8 +231,8 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: '90%',
-    borderWidth: 2, // Adicionando borda
-    borderColor: '#cb9fc6', // Cor da borda
+    borderWidth: 2, 
+    borderColor: '#cb9fc6',
   },
   modalTitle: {
     color: '#f7e1c9',
@@ -298,8 +293,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 10,
     position: 'relative',
-    borderWidth: 2, // Adicionando borda
-    borderColor: '#cb9fc6', // Cor da borda
+    borderWidth: 2, 
+    borderColor: '#cb9fc6',
   },
   cardTitle: {
     color: '#f7e1c9',
@@ -312,7 +307,7 @@ const styles = StyleSheet.create({
   },
   cardSummary: {
     color: '#fff',
-    fontSize: 16,  // Aumentado o tamanho da fonte para melhor legibilidade
+    fontSize: 16,
     marginTop: 10,
   },
   cardActions: {
