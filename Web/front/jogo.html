@@ -19,13 +19,15 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #333;
+      height: 100vh;
+      overflow: hidden;
     }
 
     .container {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 100vh;
+      height: 100%;
     }
 
     .header {
@@ -57,6 +59,7 @@
       margin-top: 20px;
       flex: 1;
       top: -20px;
+      position: relative;
     }
 
     .course-title {
@@ -77,25 +80,23 @@
       flex: 1;
       width: 100%;
       overflow-x: hidden;
+      position: relative;
     }
 
     .phase-wrapper {
       justify-content: center;
       margin-top: 20px;
       margin-bottom: 20px;
-      position: relative;
-      align-items: center;
-      width: 90%;
+      display: flex;
+      width: 100%;
     }
 
-    .left-phase {
-      align-self: flex-start;
-      margin-left: 50px;
+    .phase-wrapper:nth-child(odd) .phase-circle {
+      margin-left: 40px;
     }
-
-    .right-phase {
-      align-self: flex-end;
-      margin-right: 50px;
+    
+    .phase-wrapper:nth-child(even) .phase-circle {
+      margin-right: -80px;
     }
 
     .phase-circle {
@@ -106,6 +107,8 @@
       justify-content: center;
       align-items: center;
       display: flex;
+      cursor: pointer;
+      position: relative;
     }
 
     .phase-text {
@@ -118,38 +121,38 @@
       width: 3px;
       height: 118px;
       background-color: #fff;
+      top: 0;
     }
 
     .left-line {
-      left: 185px;
-      transform: rotate(240deg);
-      top: -80px;
+      transform: rotate(45deg);
     }
 
     .right-line {
-      right: 180px;
-      transform: rotate(-235deg);
-      top: -80px;
+      transform: rotate(-45deg);
     }
 
     .extra-space {
       height: 20px;
     }
 
+    /* Fixing bottom menu at the top */
     .bottom-menu {
       display: flex;
       justify-content: space-around;
       background-color: #f7e1c9;
       padding: 10px;
-      position: absolute;
-      position: static;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
+      z-index: 10;
     }
 
     .menu-item {
       display: flex;
-      flex-direction: column; /* Alinha o texto abaixo do ícone */
-      align-items: center; /* Centraliza o ícone e o texto */
+      flex-direction: column;
+      align-items: center;
       text-align: center;
       cursor: pointer;
       text-decoration: none;
@@ -192,25 +195,26 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="bottom-menu">
-      <a href="jogo.html" class="menu-item">
-        <i class="material-icons">games</i>
-        <span class="menu-text">Jogo</span>
-      </a>
-      <a href="resumo.html" class="menu-item">
-        <i class="material-icons">description</i>
-        <span class="menu-text">Resumo</span>
-      </a>
-      <a href="amigos.html" class="menu-item">
-        <i class="material-icons">group</i>
-        <span class="menu-text">Amigos</span>
-      </a>
-      <a href="perfil.html" class="menu-item">
-        <i class="material-icons">person</i>
-        <span class="menu-text">Perfil</span>
-      </a>
-    </div>
+  <div class="bottom-menu">
+    <a href="jogo.html" class="menu-item">
+      <i class="material-icons">games</i>
+      <span class="menu-text">Jogo</span>
+    </a>
+    <a href="resumo.html" class="menu-item">
+      <i class="material-icons">description</i>
+      <span class="menu-text">Resumo</span>
+    </a>
+    <a href="amigos.html" class="menu-item">
+      <i class="material-icons">group</i>
+      <span class="menu-text">Amigos</span>
+    </a>
+    <a href="perfil.html" class="menu-item">
+      <i class="material-icons">person</i>
+      <span class="menu-text">Perfil</span>
+    </a>
+  </div>
 
   <script>
     // Function to navigate based on phase

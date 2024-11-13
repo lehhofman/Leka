@@ -1,131 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário</title>
-    <style>
-        body {
-            background-color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-        }
-        .logo {
-            width: 130px;
-            height: 130px;
-            margin-bottom: 20px;
-        }
-        .title {
-            font-size: 28px;
-            color: #fff;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: none;
-            outline: none;
-            background-color: #f7e1c9;
-            color: #4d1948;
-        }
-        .button {
-            background-color: #a469aa;
-            color: #fff;
-            padding: 15px;
-            width: 100%;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 18px;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <img src="./image/logo.png" alt="Logo" class="logo">
-        <h1 class="title">Vamos criar sua conta</h1>
-        <input type="text" class="input" id="nome" placeholder="Nome:">
-        <input type="email" class="input" id="email" placeholder="Email:">
-        <input type="text" class="input" id="celular" placeholder="Celular:" oninput="formatCelular(this)">
-        <input type="password" class="input" id="senha" placeholder="Senha:">
-        <input type="password" class="input" id="confirmarSenha" placeholder="Confirmar Senha:">
-        <button class="button" onclick="handleSignup()">VAMOS</button>
-    </div>
-
-    <script>
-        function validateEmail(email) {
-            return email.includes('@');
-        }
-
-        function validateCelular(celular) {
-            return celular.length === 15;
-        }
-
-        function validateSenha(senha) {
-            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-            return regex.test(senha);
-        }
-
-        function formatCelular(input) {
-            let value = input.value.replace(/\D/g, '');
-            if (value.length <= 10) {
-                input.value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
-            } else {
-                input.value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 11)}`;
-            }
-        }
-
-        function handleSignup() {
-            const nome = document.getElementById('nome').value;
-            const email = document.getElementById('email').value;
-            const celular = document.getElementById('celular').value;
-            const senha = document.getElementById('senha').value;
-            const confirmarSenha = document.getElementById('confirmarSenha').value;
-
-            if (!validateEmail(email)) {
-                alert('Erro: Por favor, insira um email válido.');
-                return;
-            }
-
-            if (!validateCelular(celular)) {
-                alert('Erro: Por favor, insira um celular válido.');
-                return;
-            }
-
-            if (!validateSenha(senha)) {
-                alert('Erro: A senha deve ter no mínimo 6 caracteres, incluindo 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.');
-                return;
-            }
-
-            if (senha !== confirmarSenha) {
-                alert('Erro: Senhas não coincidem.');
-                return;
-            }
-
-            alert('Sucesso: Conta criada com sucesso!');
-            // Adicione código de armazenamento ou redirecionamento conforme necessário
-
-            window.location.href = 'motivo.html';
-        }
-    </script>
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -134,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Usuário</title>
     <style>
+        /* Estilos para o body */
         body {
             background-color: #333;
             display: flex;
@@ -143,32 +16,69 @@
             margin: 0;
             font-family: Arial, sans-serif;
         }
+
+        /* Estilo do modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color:#333; /* roxo transparente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Estilo da container do formulário */
         .container {
-            text-align: center;
+            background-color: #7950a083;
+            padding: 30px;
+            border-radius: 15px;
             width: 90%;
             max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
+
+        /* Logo */
         .logo {
-            width: 130px;
-            height: 130px;
+            width: 150px;
+            height: 150px;
             margin-bottom: 20px;
+            margin-left: 130px;
         }
+
+        /* Título */
         .title {
             font-size: 28px;
-            color: #fff;
+            color: #f7e1c9;
             font-weight: bold;
             margin-bottom: 20px;
+            text-align: center;
         }
+
+        /* Estilo do input */
         .input {
-            width: 100%;
+            width: 90%;
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 5px;
             border: none;
             outline: none;
-            background-color: #f7e1c9;
+            background-color: #f7e1c9e0;
             color: #4d1948;
         }
+
+        /* Estilo do label */
+        .label {
+            font-size: 16px;
+            color: #f7e1c9;
+            text-align: left;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Estilo do botão */
         .button {
             background-color: #a469aa;
             color: #fff;
@@ -183,15 +93,35 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="./image/logo.png" alt="Logo" class="logo">
-        <h1 class="title">Vamos criar sua conta</h1>
-        <input type="text" class="input" id="nome" placeholder="Nome:">
-        <input type="email" class="input" id="email" placeholder="Email:">
-        <input type="text" class="input" id="celular" placeholder="Celular:" oninput="formatCelular(this)">
-        <input type="password" class="input" id="senha" placeholder="Senha:">
-        <input type="password" class="input" id="confirmarSenha" placeholder="Confirmar Senha:">
-        <button class="button" onclick="handleSignup()">VAMOS</button>
+    <!-- Modal de cadastro -->
+    <div class="modal">
+        <div class="container">
+            <img src="./image/logo.png" alt="Logo" class="logo">
+            <h1 class="title">Vamos criar sua conta</h1>
+            
+            <!-- Nome -->
+            <label for="nome" class="label">Nome:</label>
+            <input type="text" class="input" id="nome" placeholder="Digite seu nome">
+            
+            <!-- Email -->
+            <label for="email" class="label">Email:</label>
+            <input type="email" class="input" id="email" placeholder="Digite seu email">
+            
+            <!-- Celular -->
+            <label for="celular" class="label">Celular:</label>
+            <input type="text" class="input" id="celular" placeholder="Digite seu celular" oninput="formatCelular(this)">
+            
+            <!-- Senha -->
+            <label for="senha" class="label">Senha:</label>
+            <input type="password" class="input" id="senha" placeholder="Digite sua senha">
+            
+            <!-- Confirmar Senha -->
+            <label for="confirmarSenha" class="label">Confirmar Senha:</label>
+            <input type="password" class="input" id="confirmarSenha" placeholder="Confirme sua senha">
+            
+            <!-- Botão -->
+            <button class="button" onclick="handleSignup()">VAMOS</button>
+        </div>
     </div>
 
     <script>
