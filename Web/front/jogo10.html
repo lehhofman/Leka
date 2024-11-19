@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caminho de Aprendizagem</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #222;
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            font-size: 2rem;
+            color: #f7e1c9;
+        }
+
+        button {
+            background-color: #b03892;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #9a1f78;
+        }
+
+        .next-button, .calculate-button {
+            text-align: center;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .module-container, .quiz-container {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .module-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff3db;
+        }
+
+        .module-description {
+            font-size: 17px;
+            color: #fff;
+        }
+
+        .interactive-step {
+            margin-bottom: 20px;
+        }
+
+        .step-instruction {
+            font-size: 18px;
+            font-weight: bold;
+            color: #f7e1c9;
+        }
+
+        .example-code {
+            background-color: #f7e1c9;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #4d1948;
+            margin-top: 5px;
+            white-space: pre-wrap; /* For preserving line breaks */
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 10px;
+            background-color: #f7e1c9;
+            border: 1px solid #666;
+            font-weight: bold;
+            color: #000;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .hint {
+            font-size: 14px;
+            color: #fff;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .quiz-container {
+            display: none;
+        }
+
+        .question-container {
+            margin-bottom: 15px;
+            background-color: #cb9fc6;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .option-button {
+            background-color: #f7e1c9;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #666;
+            margin-top: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .selected-option-button {
+            background-color: #b03892;
+            border-color: #fff;
+        }
+
+        .option-text {
+            font-size: 16px;
+            color: #4d1948;
+        }
+
+        .option-text-selected {
+            color: white;
+        }
+
+        .option-text-default {
+            color: #4d1948;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app" class="container">
+        <h1 id="learning-path-title"></h1>
+        <p id="learning-path-description"></p>
+        <div id="module-container"></div>
+        <button id="next-button" class="next-button">Próximo Módulo</button>
+    </div>
+
+    <div id="quiz-container" class="quiz-container">
+        <h2>Quiz Final</h2>
+        <div id="quiz-questions"></div>
+        <button id="calculate-score" class="calculate-button">Calcular Pontuação</button>
+    </div>
+
+    <script>
+        const learningPathData = {
+            learningPath: {
+                title: "Caminho de Aprendizagem Frontend",
+                description: "Aperfeiçoe suas habilidades em HTML, CSS e JavaScript com módulos interativos.",
+                modules: [
+                    {
+                        id: 1,
+                        title: "1. HTML Semântico",
+                        description: "Aprenda a usar tags HTML semânticas para melhorar a acessibilidade e SEO.",
+                        interactiveContent: [
+                            {
+                                step: 1,
+                                instruction: "Crie uma estrutura HTML semântica usando  header ,  nav ,  main  e  footer .",
+                                exampleCode: "<header>\n  <h1>Título do Site</h1>\n</header>\n<nav>\n  <ul>\n    <li>Home</li>\n   </ul>\n</nav>\n<main></main>\n<footer></footer>",
+                                hint: "Use tags semânticas para estruturar o conteúdo de forma clara.",
+                                userResponse: "code",
+                            },
+                        ],
+                    },
+                    {
+                        id: 2,
+                        title: "2. Flexbox e Grid Layout",
+                        description: "Domine técnicas de layout modernas usando Flexbox e CSS Grid.",
+                        interactiveContent: [
+                            {
+                                step: 1,
+                                instruction: "Utilize Flexbox para criar um layout de card simples.",
+                                exampleCode: ".container {\n  display: flex;\n  justify-content: space-around;\n}\n.card {\n  width: 200px;\n  height: 300px;\n}",
+                                hint: "Use 'display: flex' para habilitar o Flexbox.",
+                                userResponse: "code",
+                            },
+                        ],
+                    },
+                ],
+            },
+        };
+
+        let currentModuleIndex = 0;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            renderLearningPath();
+        });
+
+        function renderLearningPath() {
+            const path = learningPathData.learningPath;
+
+            // Render Learning Path Title and Description
+            document.getElementById("learning-path-title").innerText = path.title;
+            document.getElementById("learning-path-description").innerText = path.description;
+
+            renderModule();
+        }
+
+        function renderModule() {
+            const module = learningPathData.learningPath.modules[currentModuleIndex];
+
+            const moduleContainer = document.getElementById("module-container");
+            moduleContainer.innerHTML = `
+                <div class="module-container">
+                    <h3 class="module-title">${module.title}</h3>
+                    <p class="module-description">${module.description}</p>
+                    ${renderInteractiveSteps(module.interactiveContent)}
+                </div>
+            `;
+
+            document.getElementById("next-button").style.display = "block";
+            document.getElementById("quiz-container").style.display = "none";
+        }
+
+        function renderInteractiveSteps(steps) {
+            return steps.map(step => `
+                <div class="interactive-step">
+                    <p class="step-instruction">${step.instruction}</p>
+                    <pre class="example-code">${escapeHtml(step.exampleCode)}</pre>
+                    <input type="text" class="text-input" placeholder="Digite seu código aqui" />
+                    <p class="hint">Dica: ${step.hint}</p>
+                </div>
+            `).join("");
+        }
+
+        // Função para escapar os caracteres HTML
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, function(match) {
+                switch (match) {
+                    case '&': return '&amp;';
+                    case '<': return '&lt;';
+                    case '>': return '&gt;';
+                    case '"': return '&quot;';
+                    case "'": return '&#39;';
+                }
+            });
+        }
+
+        document.getElementById("next-button").addEventListener("click", function() {
+            if (currentModuleIndex < learningPathData.learningPath.modules.length - 1) {
+                currentModuleIndex++;
+                renderModule();
+            } else {
+                renderQuiz();
+            }
+        });
+
+        function renderQuiz() {
+            const quiz = [
+                {
+                    question: "1. Quais tags HTML semânticas melhoram a acessibilidade?",
+                    answerType: "multipleChoice",
+                    options: ["<div>, <span>", "<header>, <footer>", "<b>, <i>"],
+                    expectedAnswer: "<header>, <footer>"
+                },
+                {
+                    question: "2. Qual propriedade CSS é usada para criar um layout flexível?",
+                    answerType: "multipleChoice",
+                    options: ["display: flex;", "layout: grid;", "flex: true;"],
+                    expectedAnswer: "display: flex;"
+                },
+                // Outros itens omitidos por brevidade
+            ];
+
+            const quizContainer = document.getElementById("quiz-container");
+            const quizQuestions = document.getElementById("quiz-questions");
+
+            quizQuestions.innerHTML = quiz.map((question, index) => `
+                <div class="question-container">
+                    <p>${question.question}</p>
+                    ${question.options.map(option => `
+                        <button class="option-button" onclick="handleAnswer(${index}, '${option}')">${option}</button>
+                    `).join("")}
+                </div>
+            `).join("");
+
+            document.getElementById("quiz-container").style.display = "block";
+            document.getElementById("next-button").style.display = "none";
+        }
+
+        function handleAnswer(questionIndex, answer) {
+            const selectedOption = document.querySelectorAll(".option-button")[questionIndex];
+            selectedOption.classList.add('selected-option-button');
+        }
+
+        document.getElementById("calculate-score").addEventListener("click", function() {
+            alert("Pontuação calculada!");
+        });
+
+    </script>
+</body>
+</html>
