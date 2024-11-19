@@ -2,6 +2,8 @@
 
 # Leka - Aprenda Jogando
 
+https://my.visme.co/editor/dXM4ejBVSlBReHJ2c0l6MjJUeXk0QT09OjpvWEd4ams3ZTR2Uld6a3k0MFREOStnPT0=/data
+
 O aplicativo Leka visa promover o aprendizado de habilidades de programação de forma gamificada e personalizada. Ele utiliza questionários iniciais para entender os objetivos do usuário, como razões para o aprendizado (profissional, diversão etc.) e nível de experiência. Com base nas respostas, o aplicativo sugere trajetórias de aprendizado adaptadas, estabelecendo metas diárias e acompanhando o progresso através de etapas interativas. Além disso, Leka incentiva a competição saudável, permitindo que os usuários convidem amigos para participar. O aplicativo também oferece funcionalidades para criar resumos personalizados das aulas e acompanhar o progresso, certificados e recordes, tudo dentro de um ambiente interativo e envolvente.
 
 ## Documentação de cores:
