@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Experiência</title>
+    <title>Página de Motivo</title>
     <style>
         body {
-            background-color: #222;
+            background-color: #333;
             color: #fff;
             font-family: Arial, sans-serif;
             display: flex;
@@ -21,8 +21,6 @@
             width: 300px;
             height: 300px;
             margin-bottom: 20px;
-            position: relative;
-            top: -50px;
         }
         .title {
             font-size: 25px;
@@ -49,20 +47,18 @@
     </style>
 </head>
 <body>
-    <img src="./image/nivel.gif" alt="Gif ilustrativo" class="gif">
-    <h1 class="title">Qual o seu nível de experiência?</h1>
+    <img src="./image/porque.gif" alt="Motivo GIF" class="gif">
+    <h1 class="title">Por que você está aprendendo?</h1>
 
-    <button class="button" onclick="navigateTo('baixo')">Baixo</button>
-    <button class="button" onclick="navigateTo('medio')">Médio</button>
-    <button class="button" onclick="navigateTo('alto')">Alto</button>
+    <button class="button" onclick="navigateTo('Para me tornar profissional')">Para me tornar profissional</button>
+    <button class="button" onclick="navigateTo('Apenas por diversão')">Apenas por diversão</button>
+    <button class="button" onclick="navigateTo('Para o meu trabalho atual')">Para o meu trabalho atual</button>
+    <button class="button" onclick="navigateTo('Por um motivo diferente')">Por um motivo diferente</button>
 
     <script>
-        function navigateTo(nivel) {
-            // Simulação da navegação e passagem de parâmetros
-            window.location.href = 'interessante.html';
-            alert(`Navegando para a próxima página com o nível: ${nivel}`);
-            
-        }
+        function navigateTo(opcao) {
+            window.location.href = 'melhoropcao.html';
+            }
     </script>
 </body>
 </html>

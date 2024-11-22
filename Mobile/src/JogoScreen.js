@@ -35,7 +35,7 @@ const GameScreen = ({ navigation }) => {
 
   const goToGame = (phase) => {
     const screenMap = {
-      0: 'Pergunta',
+      0: 'jogo',
       1: 'Jogo1',
       2: 'Jogo2',
       3: 'Jogo3',
