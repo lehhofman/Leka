@@ -2,8 +2,6 @@
 
 # Leka - Aprenda Jogando
 
-https://my.visme.co/editor/dXM4ejBVSlBReHJ2c0l6MjJUeXk0QT09OjpvWEd4ams3ZTR2Uld6a3k0MFREOStnPT0=/data
-
 O aplicativo Leka visa promover o aprendizado de habilidades de programação de forma gamificada e personalizada. Ele utiliza questionários iniciais para entender os objetivos do usuário, como razões para o aprendizado (profissional, diversão etc.) e nível de experiência. Com base nas respostas, o aplicativo sugere trajetórias de aprendizado adaptadas, estabelecendo metas diárias e acompanhando o progresso através de etapas interativas. Além disso, Leka incentiva a competição saudável, permitindo que os usuários convidem amigos para participar. O aplicativo também oferece funcionalidades para criar resumos personalizados das aulas e acompanhar o progresso, certificados e recordes, tudo dentro de um ambiente interativo e envolvente.
 
 ## Documentação de cores:
@@ -57,7 +55,7 @@ O aplicativo Leka visa promover o aprendizado de habilidades de programação de
 - [ ] Desenvolver o Código
     - [x] Front-End
     - [x] Banco de Dados
-    - [ ] Back-End
+    - [x] Back-End
     - [x] Mobile
     - [x] Testes unitários<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo.git)
 - [ ] Criar o Documento do Projeto
@@ -65,12 +63,12 @@ O aplicativo Leka visa promover o aprendizado de habilidades de programação de
     - [x] Dicionário de Dados<br>[Exemplo](https://github.com/wellifabio/projetofullexemplo/tree/main/docs/projeto)
 
 ## Sprint 04 - Backlog
-- [ ] Criar o Documento de Teste
-    - [ ] Teste de Unidade
-    - [ ] Teste de Integração
-    - [ ] Teste de Sistema - Ponto a Ponto
+- [x] Criar o Documento de Teste
+    - [x] Teste de Unidade
+    - [x] Teste de Integração
+    - [x] Teste de Sistema - Ponto a Ponto
     - [x] Teste de Aceitação
-- [ ] Revisar o documento do projeto
+- [x] Revisar o documento do projeto
 - [x] Criar o Documento de Implantação
     - [x] Manual do Usuário
     - [x] Manual do Administrador se houver
