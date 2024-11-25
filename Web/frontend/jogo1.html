@@ -22,7 +22,7 @@
         }
         .title {
             text-align: center;
-            color: #f7e1c9;
+            color: #fff3db;
         }
         .module-title {
             font-size: 22px;
@@ -34,7 +34,7 @@
             margin-bottom: 20px;
         }
         .example-code {
-            background-color: #f7e1c9;
+            background-color: #fff3db;
             color: #4d1948;
             padding: 10px;
             border-radius: 5px;
@@ -48,7 +48,7 @@
             margin-top: 10px;
             border: 1px solid #666;
             border-radius: 5px;
-            background-color: #f7e1c9;
+            background-color: #fff3db;
             color: #000;
         }
         .button {
@@ -65,12 +65,26 @@
         .button:hover {
             background-color: #a02684;
         }
-        .quiz-options {
-            margin-top: 10px;
-        }
         .quiz-options label {
-            display: block;
-            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            background-color: #fff3db;
+            border: 2px solid #666;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            color: #a02684;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #b03892; /* Define a cor do círculo de seleção */
+        }
+        .quiz-options input[type="radio"]:checked + label {
+            background-color: #b03892;
+            color: #a02684;
+            border-color: #fff3db;
         }
     </style>
 </head>
@@ -79,122 +93,128 @@
         <h1 class="title">Módulos de Aprendizado</h1>
         <div id="moduleContainer"></div>
         <button id="nextButton" class="button">Próximo Módulo</button>
+        <div id="result"></div>
     </div>
     <script>
         const learningPathData = {
             modules: [
-                {
-                    id: 1,
-                    title: "1. HTML Semântico",
-                    description: "Aprenda a usar tags HTML semânticas para melhorar a acessibilidade e SEO.",
-                    interactiveContent: [
-                        {
-                            step: 1,
-                            instruction: "Crie uma estrutura HTML semântica usando <header>, <nav>, <main> e <footer>.",
-                            exampleCode: "<header>\n  <h1>Título do Site</h1>\n</header>\n<nav>\n  <ul>\n    <li>Home</li>\n   </ul>\n</nav>\n<main></main>\n<footer></footer>",
-                            hint: "Use tags semânticas para estruturar o conteúdo de forma clara.",
-                        }
-                    ]
-                },
-                {
-                    id: 2,
-                    title: "2. Flexbox e Grid Layout",
-                    description: "Domine técnicas de layout modernas usando Flexbox e CSS Grid.",
-                    interactiveContent: [
-                        {
-                            step: 1,
-                            instruction: "Utilize Flexbox para criar um layout de card simples.",
-                            exampleCode: ".container {\n  display: flex;\n  justify-content: space-around;\n}\n.card {\n  width: 200px;\n  height: 300px;\n}",
-                            hint: "Use 'display: flex' para habilitar o Flexbox.",
-                        }
-                    ]
-                },
-                {
-                    id: 3,
-                    title: "3. Manipulação de DOM com JavaScript",
-                    description: "Aprenda a manipular o DOM usando JavaScript para criar interatividade dinâmica.",
-                    interactiveContent: [
-                        {
-                            step: 1,
-                            instruction: "Escreva um código JavaScript para adicionar um novo item a uma lista quando um botão for clicado.",
-                            exampleCode: "function addItem() {\n    const li = document.createElement('li');\n    li.textContent = 'Novo Item';\n    document.getElementById('minhaLista').appendChild(li);\n  }",
-                            hint: "Use 'document.createElement' para criar novos elementos.",
-                            userResponse: "code",
-                        },
-                    ],
-                },
-                {
-                    id: 4,
-                    title: "4. Transições e Animações CSS",
-                    description: "Aprenda a aplicar transições e animações para tornar suas páginas mais dinâmicas.",
-                    interactiveContent: [
-                        {
-                            step: 1,
-                            instruction: "Adicione uma transição suave a um botão ao passar o mouse.",
-                            exampleCode: ".botao {\n  transition: background-color 0.3s;\n}\n.botao:hover {\n  background-color: #4CAF50;\n}",
-                            hint: "Use a propriedade 'transition' para definir a animação.",
-                            userResponse: "code",
-                        },
-                    ],
-                },
-                {
-                    id: 5,
-                    title: "✏ Quiz Final Avançado",
-                    quiz: [
-                        {
-                            question: "1. Quais tags HTML semânticas melhoram a acessibilidade?",
-                            answerType: "multipleChoice",
-                            options: [
-                                "<div>, <span>",
-                                "<header>, <footer>",
-                                "<b>, <i>",
-                            ],
-                            expectedAnswer: "<header>, <footer>",
-                        },
-                        {
-                            question: "2. Qual propriedade CSS é usada para criar um layout flexível?",
-                            answerType: "multipleChoice",
-                            options: [
-                                "display: flex;",
-                                "layout: grid;",
-                                "flex: true;",
-                            ],
-                            expectedAnswer: "display: flex;",
-                        },
-                        {
-                            question: "3. Como você pode adicionar um item à lista em JavaScript?",
-                            answerType: "code",
-                            expectedAnswer: "document.getElementById('minhaLista').appendChild(novoItem);",
-                        },
-                        {
-                            question: "4. O que a propriedade 'transition' faz no CSS?",
-                            answerType: "multipleChoice",
-                            options: [
-                                "Altera a cor do texto.",
-                                "Cria animações suaves entre estados.",
-                                "Altera o layout do elemento.",
-                            ],
-                            expectedAnswer: "Cria animações suaves entre estados.",
-                        },
-                        {
-                            question: "5. Para que serve a propriedade 'grid-template-columns'?",
-                            answerType: "multipleChoice",
-                            options: [
-                                "Define a cor de fundo da grade.",
-                                "Define o número e o tamanho das colunas na grade.",
-                                "Define a altura da grade.",
-                            ],
-                            expectedAnswer: "Define o número e o tamanho das colunas na grade.",
-                        }
-                    ],
-                }
-            ]
+            {
+                id: 1,
+                title: "1. HTML Semântico",
+                description: "Aprenda a usar tags HTML semânticas para melhorar a acessibilidade e SEO.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Crie uma estrutura HTML semântica usando <header>, <nav>, <main> e <footer>.",
+                        exampleCode: "<header>\n  <h1>Título do Site</h1>\n</header>\n<nav>\n  <ul>\n    <li>Home</li>\n   </ul>\n</nav>\n<main></main>\n<footer></footer>",
+                        hint: "Use tags semânticas para estruturar o conteúdo de forma clara.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 2,
+                title: "2. Flexbox e Grid Layout",
+                description: "Domine técnicas de layout modernas usando Flexbox e CSS Grid.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Utilize Flexbox para criar um layout de card simples.",
+                        exampleCode: ".container {\n  display: flex;\n  justify-content: space-around;\n}\n.card {\n  width: 200px;\n  height: 300px;\n}",
+                        hint: "Use 'display: flex' para habilitar o Flexbox.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 3,
+                title: "3. Manipulação de DOM com JavaScript",
+                description: "Aprenda a manipular o DOM usando JavaScript para criar interatividade dinâmica.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Escreva um código JavaScript para adicionar um novo item a uma lista quando um botão for clicado.",
+                        exampleCode: "function addItem() {\n    const li = document.createElement('li');\n    li.textContent = 'Novo Item';\n    document.getElementById('minhaLista').appendChild(li);\n  }",
+                        hint: "Use 'document.createElement' para criar novos elementos.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 4,
+                title: "4. Transições e Animações CSS",
+                description: "Aprenda a aplicar transições e animações para tornar suas páginas mais dinâmicas.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Adicione uma transição suave a um botão ao passar o mouse.",
+                        exampleCode: ".botao {\n  transition: background-color 0.3s;\n}\n.botao:hover {\n  background-color: #4CAF50;\n}",
+                        hint: "Use a propriedade 'transition' para definir a animação.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 5,
+                quiz: [
+                    {
+                        question: "1. Quais tags HTML semânticas melhoram a acessibilidade?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "<div>, <span>",
+                            "<header>, <footer>",
+                            "<b>, <i>",
+                        ],
+                        expectedAnswer: "<header>, <footer>",
+                    },
+                    {
+                        question: "2. Qual propriedade CSS é usada para criar um layout flexível?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "display: flex;",
+                            "layout: grid;",
+                            "flex: true;",
+                        ],
+                        expectedAnswer: "display: flex;",
+                    },
+                    {
+                        question: "3. Como você pode adicionar um item à lista em JavaScript?",
+                        answerType: "code",
+                        expectedAnswer: "document.getElementById('minhaLista').appendChild(novoItem);",
+                    },
+                    {
+                        question: "4. O que a propriedade 'transition' faz no CSS?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "Altera a cor do texto.",
+                            "Cria animações suaves entre estados.",
+                            "Altera o layout do elemento.",
+                        ],
+                        expectedAnswer: "Cria animações suaves entre estados.",
+                    },
+                    {
+                        question: "5. Para que serve a propriedade 'grid-template-columns'?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "Define a cor de fundo da grade.",
+                            "Define o número e o tamanho das colunas na grade.",
+                            "Define a altura da grade.",
+                        ],
+                        expectedAnswer: "Define o número e o tamanho das colunas na grade.",
+                    },
+                ],
+            },
+        ]
         };
 
         let currentModuleIndex = 0;
+        let userAnswers = [];
 
         function renderModule() {
             const moduleContainer = document.getElementById('moduleContainer');
+            const nextButton = document.getElementById('nextButton');
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = ''; // Limpa o resultado anterior
             moduleContainer.innerHTML = '';
 
             const module = learningPathData.modules[currentModuleIndex];
@@ -208,40 +228,38 @@
                 description.textContent = module.description;
 
                 moduleContainer.appendChild(title);
-                moduleContainer.appendChild(description);
 
-                // Renderizando conteúdo interativo
                 if (module.interactiveContent) {
                     module.interactiveContent.forEach(content => {
                         const instruction = document.createElement('p');
                         instruction.textContent = content.instruction;
-
                         const exampleCode = document.createElement('pre');
                         exampleCode.className = 'example-code';
                         exampleCode.textContent = content.exampleCode;
+                        
+                        const codeInput = document.createElement('textarea');
+                        codeInput.className = 'text-input';
+                        codeInput.placeholder = "Escreva sua resposta aqui...";
 
                         const hint = document.createElement('p');
                         hint.textContent = `Dica: ${content.hint}`;
 
+
+
                         moduleContainer.appendChild(instruction);
                         moduleContainer.appendChild(exampleCode);
+                        moduleContainer.appendChild(codeInput);
                         moduleContainer.appendChild(hint);
-
-                        if (content.userResponse === 'code') {
-                            const codeInput = document.createElement('textarea');
-                            codeInput.className = 'text-input';
-                            codeInput.placeholder = "Escreva sua resposta aqui...";
-                            moduleContainer.appendChild(codeInput);
-                        }
                     });
                 }
 
-                // Renderizando o quiz (se houver)
+
+
                 if (module.quiz) {
-                    module.quiz.forEach(q => {
+                    // Renderizando o quiz
+                    module.quiz.forEach((q, index) => {
                         const question = document.createElement('h3');
                         question.textContent = q.question;
-
                         moduleContainer.appendChild(question);
 
                         if (q.answerType === 'multipleChoice') {
@@ -260,24 +278,61 @@
                                 optionsContainer.appendChild(optionLabel);
                             });
 
-                            
-
                             moduleContainer.appendChild(optionsContainer);
                         }
+
+                        if (q.answerType === 'code') {
+                            const codeInput = document.createElement('textarea');
+                            codeInput.className = 'text-input';
+                            codeInput.placeholder = "Escreva sua resposta de código aqui...";
+                            moduleContainer.appendChild(codeInput);
+                        }
                     });
+                    nextButton.textContent = "Finalizar Módulo";
+                } else {
+                    nextButton.textContent = "Próximo Módulo";
                 }
             }
 
-            const nextButton = document.getElementById('nextButton');
             nextButton.style.display = 'block';
         }
 
         document.getElementById('nextButton').addEventListener('click', () => {
-            currentModuleIndex++;
-            if (currentModuleIndex < learningPathData.modules.length) {
-                renderModule();
+            const module = learningPathData.modules[currentModuleIndex];
+
+            if (module.quiz) {
+                let correctAnswers = 0;
+                const inputs = document.querySelectorAll('input[type="radio"]:checked');
+                inputs.forEach(input => {
+                    const question = input.name;
+                    const selectedAnswer = input.value;
+                    const questionObj = module.quiz.find(q => q.question === question);
+                    if (selectedAnswer === questionObj.expectedAnswer) {
+                        correctAnswers++;
+                    }
+                });
+
+                const codeInputs = document.querySelectorAll('textarea');
+                codeInputs.forEach(input => {
+                    const questionText = input.placeholder;
+                    const questionObj = module.quiz.find(q => q.question === questionText);
+                    if (input.value === questionObj.expectedAnswer) {
+                        correctAnswers++;
+                    }
+                });
+
+                if (correctAnswers >= 3) {
+                    resultDiv.innerHTML = `Você acertou ${correctAnswers} de ${module.quiz.length} perguntas! Parabéns! Você pode continuar para o próximo módulo.`;
+                    currentModuleIndex++;
+                    setTimeout(() => {
+                        renderModule();
+                    }, 2000);
+                } else {
+                    resultDiv.innerHTML = `Você acertou ${correctAnswers} de ${module.quiz.length}. Tente novamente!`;
+                }
             } else {
-                alert('Você completou todos os módulos!');
+                currentModuleIndex++;
+                renderModule();
             }
         });
 

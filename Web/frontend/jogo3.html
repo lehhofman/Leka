@@ -2,8 +2,9 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caminho de Aprendizagem</title>
+    <title>Módulos de Aprendizado</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,257 +13,297 @@
             margin: 0;
             padding: 20px;
         }
-
-        h1, h2, h3 {
-            color: #fff3db;
-        }
-
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
+            max-width: 800px;
+            margin: auto;
             background-color: #444;
+            padding: 20px;
             border-radius: 10px;
         }
-
-        .module, .quiz {
-            background-color: #555;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
+        .title {
+            text-align: center;
+            color: #fff3db;
         }
-
+        .module-title {
+            font-size: 22px;
+            color: #fff3db;
+            margin-bottom: 10px;
+        }
+        .module-description {
+            font-size: 17px;
+            margin-bottom: 20px;
+        }
+        .example-code {
+            background-color: #fff3db;
+            color: #4d1948;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .text-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #666;
+            border-radius: 5px;
+            background-color: #fff3db;
+            color: #000;
+        }
         .button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
             background-color: #b03892;
             color: #fff;
-            padding: 10px;
+            border: none;
             border-radius: 25px;
             cursor: pointer;
-            text-align: center;
-            width: 100%;
-            font-weight: bold;
         }
-
         .button:hover {
-            background-color: #9b2a7f;
+            background-color: #a02684;
         }
-
-        .step {
-            background-color: #f7e1c9;
-            padding: 15px;
-            margin-top: 10px;
-            border-radius: 5px;
-        }
-
-        .example-code {
-            background-color: #cb9fc6;
-            padding: 10px;
-            font-family: monospace;
-            margin-top: 10px;
-            border-radius: 5px;
-        }
-
-        .hint {
-            font-style: italic;
-            color: #fff;
-            margin-top: 10px;
-        }
-
-        .quiz-options {
-            margin-top: 10px;
-        }
-
-        .quiz-options button {
-            background-color: #f7e1c9;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 5px 0;
-            width: 100%;
-            cursor: pointer;
-        }
-
-        .quiz-options button.selected {
-            background-color: #b03892;
-            color: #fff;
-        }
-
-        .quiz-options button:hover {
-            background-color: #cb9fc6;
-        }
-
-        .quiz-results {
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .gif-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .gif {
-            width: 200px;
-            height: 200px;
-        }
+    .quiz-options label {
+        display: flex;
+        align-items: center;
+        background-color: #fff3db;
+        border: 2px solid #666;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        color: #a02684;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+    .quiz-options input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #b03892; /* Define a cor do círculo de seleção */
+    }
+    .quiz-options input[type="radio"]:checked + label {
+        background-color: #b03892;
+        color: #a02684;
+        border-color: #fff3db;
+    }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>Caminho de Aprendizagem</h1>
-    <p id="description">Descrição do caminho de aprendizagem.</p>
-    <div id="module-container"></div>
-</div>
-
-<script>
-    const learningPathData = {
-        learningPath: {
-            title: "Aprendizado de Desenvolvimento Web",
-            description: "Este caminho de aprendizagem irá guiá-lo pelos fundamentos de HTML, CSS e JavaScript.",
+    <div class="container">
+        <h1 class="title">Módulos de Aprendizado</h1>
+        <div id="moduleContainer"></div>
+        <button id="nextButton" class="button">Próximo Módulo</button>
+    </div>
+    <script>
+        const learningPathData = {
             modules: [
-                {
-                    id: 1,
-                    title: "1. Introdução ao HTML e Acessibilidade",
-                    description: "Aprenda os fundamentos do HTML e como tornar suas páginas acessíveis.",
-                    interactiveContent: [
-                        {
-                            step: 1,
-                            instruction: "Adicione um título e uma descrição a uma página HTML.",
-                            exampleCode: "<h1>Bem-vindo ao meu site</h1>\n<p>Esta é uma descrição acessível.</p>",
-                            hint: "Use tags HTML semânticas para melhorar a acessibilidade."
-                        }
-                    ]
-                },
-                {
-                    id: 2,
-                    title: "2. CSS Básico e Estilização Simples",
-                    description: "Descubra como usar o CSS para estilizar suas páginas.",
-                    interactiveContent: [
-                        {
-                            step: 1,
-                            instruction: "Altere a cor de fundo de um elemento usando CSS.",
-                            exampleCode: "body {\n  background-color: lightblue;\n}",
-                            hint: "Use a propriedade 'background-color' para mudar a cor."
-                        }
-                    ]
-                },
-                {
-                    id: 3,
-                    title: "3. Introdução ao JavaScript",
-                    description: "Explore os conceitos básicos do JavaScript e como interagir com a página.",
-                    interactiveContent: [
-                        {
-                            step: 1,
-                            instruction: "Crie uma função simples que exibe uma mensagem.",
-                            exampleCode: "function mostrarMensagem() {\n  alert('Olá, mundo!');\n}",
-                            hint: "Use 'alert()' para mostrar mensagens ao usuário."
-                        }
-                    ]
-                },
-                {
-                    id: 4,
-                    title: "4. Manipulação Básica do DOM",
-                    description: "Aprenda como alterar o conteúdo da página usando JavaScript.",
-                    interactiveContent: [
-                        {
-                            step: 1,
-                            instruction: "Mude o texto de um elemento HTML usando JavaScript.",
-                            exampleCode: "document.getElementById('meuElemento').innerText = 'Texto Atualizado';",
-                            hint: "Use 'getElementById()' para acessar elementos da página."
-                        }
-                    ]
-                },
-                {
-                    id: 5,
-                    title: "✏ Quiz Final Básico",
-                    quiz: [
-                        {
-                            question: "O que é HTML?",
-                            options: [
-                                "Uma linguagem de programação.",
-                                "Uma linguagem de marcação para estruturar páginas.",
-                                "Uma biblioteca de JavaScript."
-                            ],
-                            expectedAnswer: "Uma linguagem de marcação para estruturar páginas."
-                        },
-                        {
-                            question: "Para que serve o CSS?",
-                            options: [
-                                "Para adicionar interatividade às páginas.",
-                                "Para estilizar a aparência das páginas.",
-                                "Para estruturar o conteúdo das páginas."
-                            ],
-                            expectedAnswer: "Para estilizar a aparência das páginas."
-                        },
-                        {
-                            question: "Como você declara uma variável no JavaScript?",
-                            options: [
-                                "var minhaVariavel;",
-                                "minhaVariavel = var;",
-                                "declare minhaVariavel;"
-                            ],
-                            expectedAnswer: "var minhaVariavel;"
-                        },
-                        {
-                            question: "O que é o DOM?",
-                            options: [
-                                "Um tipo de banco de dados.",
-                                "Uma representação em árvore da estrutura da página.",
-                                "Um estilo CSS."
-                            ],
-                            expectedAnswer: "Uma representação em árvore da estrutura da página."
-                        },
-                        {
-                            question: "Qual método é usado para mostrar alertas no JavaScript?",
-                            options: [
-                                "console.log()",
-                                "alert()",
-                                "message()"
-                            ],
-                            expectedAnswer: "alert()"
-                        }
-                    ]
+            {
+                id: 1,
+                title: "1. Introdução ao HTML e Acessibilidade",
+                description: "Aprenda os fundamentos do HTML e como tornar suas páginas acessíveis.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Adicione um título e uma descrição a uma página HTML.",
+                        exampleCode: "<h1>Bem-vindo ao meu site</h1>\n<p>Esta é uma descrição acessível.</p>",
+                        hint: "Use tags HTML semânticas para melhorar a acessibilidade.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 2,
+                title: "2. CSS Básico e Estilização Simples",
+                description: "Descubra como usar o CSS para estilizar suas páginas.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Altere a cor de fundo de um elemento usando CSS.",
+                        exampleCode: "body {\n  background-color: lightblue;\n}",
+                        hint: "Use a propriedade 'background-color' para mudar a cor.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 3,
+                title: "3. Introdução ao JavaScript",
+                description: "Explore os conceitos básicos do JavaScript e como interagir com a página.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Crie uma função simples que exibe uma mensagem.",
+                        exampleCode: "function mostrarMensagem() {\n  alert('Olá, mundo!');\n}",
+                        hint: "Use 'alert()' para mostrar mensagens ao usuário.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 4,
+                title: "4. Manipulação Básica do DOM",
+                description: "Aprenda como alterar o conteúdo da página usando JavaScript.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Mude o texto de um elemento HTML usando JavaScript.",
+                        exampleCode: "document.getElementById('meuElemento').innerText = 'Texto Atualizado';",
+                        hint: "Use 'getElementById()' para acessar elementos da página.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 5,
+                quiz: [
+                    {
+                        question: "1. O que é HTML?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "Uma linguagem de programação.",
+                            "Uma linguagem de marcação para estruturar páginas.",
+                            "Uma biblioteca de JavaScript.",
+                        ],
+                        expectedAnswer: "Uma linguagem de marcação para estruturar páginas.",
+                    },
+                    {
+                        question: "2. Para que serve o CSS?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "Para adicionar interatividade às páginas.",
+                            "Para estilizar a aparência das páginas.",
+                            "Para estruturar o conteúdo das páginas.",
+                        ],
+                        expectedAnswer: "Para estilizar a aparência das páginas.",
+                    },
+                    {
+                        question: "3. Como você declara uma variável no JavaScript?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "var minhaVariavel;",
+                            "minhaVariavel = var;",
+                            "declare minhaVariavel;",
+                        ],
+                        expectedAnswer: "var minhaVariavel;",
+                    },
+                    {
+                        question: "4. O que é o DOM?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "Um tipo de banco de dados.",
+                            "Uma representação em árvore da estrutura da página.",
+                            "Um estilo CSS.",
+                        ],
+                        expectedAnswer: "Uma representação em árvore da estrutura da página.",
+                    },
+                    {
+                        question: "5. Qual método é usado para mostrar alertas no JavaScript?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "console.log()",
+                            "alert()",
+                            "message()",
+                        ],
+                        expectedAnswer: "alert()",
+                    },
+                ],
+            },
+        ],
+        };
+
+        let currentModuleIndex = 0;
+
+        function renderModule() {
+            const moduleContainer = document.getElementById('moduleContainer');
+            moduleContainer.innerHTML = '';
+
+            const module = learningPathData.modules[currentModuleIndex];
+            if (module) {
+                const title = document.createElement('h2');
+                title.className = 'module-title';
+                title.textContent = module.title;
+
+                const description = document.createElement('p');
+                description.className = 'module-description';
+                description.textContent = module.description;
+
+                moduleContainer.appendChild(title);
+
+                if (module.interactiveContent) {
+                    module.interactiveContent.forEach(content => {
+                        const instruction = document.createElement('p');
+                        instruction.textContent = content.instruction;
+                        const exampleCode = document.createElement('pre');
+                        exampleCode.className = 'example-code';
+                        exampleCode.textContent = content.exampleCode;
+                        
+                        const codeInput = document.createElement('textarea');
+                        codeInput.className = 'text-input';
+                        codeInput.placeholder = "Escreva sua resposta aqui...";
+
+                        const hint = document.createElement('p');
+                        hint.textContent = `Dica: ${content.hint}`;
+
+
+
+                        moduleContainer.appendChild(instruction);
+                        moduleContainer.appendChild(exampleCode);
+                        moduleContainer.appendChild(codeInput);
+                        moduleContainer.appendChild(hint);
+                    });
                 }
-            ]
+
+                // Renderizando o quiz (se houver)
+                if (module.quiz) {
+                    module.quiz.forEach(q => {
+                        const question = document.createElement('h3');
+                        question.textContent = q.question;
+
+                        moduleContainer.appendChild(question);
+
+                        if (q.answerType === 'multipleChoice') {
+                            const optionsContainer = document.createElement('div');
+                            optionsContainer.className = 'quiz-options';
+
+                            q.options.forEach(option => {
+                                const optionLabel = document.createElement('label');
+                                const optionInput = document.createElement('input');
+                                optionInput.type = 'radio';
+                                optionInput.name = q.question;
+                                optionInput.value = option;
+
+                                optionLabel.appendChild(optionInput);
+                                optionLabel.appendChild(document.createTextNode(option));
+                                optionsContainer.appendChild(optionLabel);
+                            });
+
+                            moduleContainer.appendChild(optionsContainer);
+                        }
+
+                        if (q.answerType === 'code') {
+                            const codeInput = document.createElement('textarea');
+                            codeInput.className = 'text-input';
+                            codeInput.placeholder = "Escreva sua resposta de código aqui...";
+                            moduleContainer.appendChild(codeInput);
+                        }
+                    });
+                }
+            }
+
+            const nextButton = document.getElementById('nextButton');
+            nextButton.style.display = 'block';
         }
-    };
 
-    let currentModuleIndex = 0;
+        document.getElementById('nextButton').addEventListener('click', () => {
+            currentModuleIndex++;
+            if (currentModuleIndex < learningPathData.modules.length) {
+                renderModule();
+            } else {
+                alert('Você completou todos os módulos!');
+            }
+        });
 
-    const descriptionElement = document.getElementById('description');
-    const moduleContainer = document.getElementById('module-container');
-
-    function displayModule() {
-        const module = learningPathData.learningPath.modules[currentModuleIndex];
-
-        moduleContainer.innerHTML = `
-            <div class="module">
-                <h2>${module.title}</h2>
-                <p>${module.description}</p>
-                ${module.interactiveContent ? module.interactiveContent.map(step => `
-                    <div class="step">
-                        <p><strong>Instrução:</strong> ${step.instruction}</p>
-                        <pre class="example-code">${step.exampleCode}</pre>
-                        <input type="text" id="user-input" placeholder="Digite seu código aqui" />
-                        <p class="hint">Dica: ${step.hint}</p>
-                    </div>
-                `).join('') : ''}
-                <div class="button" onclick="nextModule()">Próximo Módulo</div>
-            </div>
-        `;
-    }
-
-    function nextModule() {
-        currentModuleIndex++;
-        if (currentModuleIndex < learningPathData.learningPath.modules.length) {
-            displayModule();
-        } else {
-            alert("Parabéns, você completou o caminho de aprendizagem!");
-        }
-    }
-
-    displayModule();
-</script>
-
+        renderModule();
+    </script>
 </body>
 </html>

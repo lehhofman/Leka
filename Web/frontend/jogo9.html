@@ -2,238 +2,308 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caminho de Aprendizagem</title>
+    <title>Módulos de Aprendizado</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #333;
             color: #fff;
             margin: 0;
-            padding: 0;
+            padding: 20px;
         }
         .container {
-            padding: 20px;
             max-width: 800px;
-            margin: 0 auto;
+            margin: auto;
+            background-color: #444;
+            padding: 20px;
+            border-radius: 10px;
         }
         .title {
-            font-size: 30px;
-            color: #fff3db;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .description {
-            font-size: 16px;
-            color: #fff;
-            margin-bottom: 20px;
             text-align: center;
-        }
-        .module-container {
-            margin-bottom: 30px;
-            padding: 15px;
-            background-color: #444;
-            border-radius: 8px;
+            color: #fff3db;
         }
         .module-title {
             font-size: 22px;
-            color: #f7e1c9;
-            font-weight: bold;
+            color: #fff3db;
             margin-bottom: 10px;
         }
         .module-description {
             font-size: 17px;
-            color: #fff;
             margin-bottom: 20px;
         }
-        .step-container {
-            margin-bottom: 15px;
-        }
-        .step-instruction {
-            font-size: 18px;
-            color: #f7e1c9;
-            font-weight: bold;
-        }
         .example-code {
-            font-size: 14px;
+            background-color: #fff3db;
             color: #4d1948;
-            background-color: #f7e1c9;
             padding: 10px;
             border-radius: 5px;
             margin-top: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
         }
         .text-input {
-            border: 1px solid #666;
-            color: #000;
-            background-color: #f7e1c9;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
             width: 100%;
-        }
-        .hint {
-            font-size: 14px;
-            color: #fff;
-            font-weight: bold;
-            margin-top: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #666;
+            border-radius: 5px;
+            background-color: #fff3db;
+            color: #000;
         }
         .button {
+            display: block;
+            width: 100%;
             padding: 15px;
-            background-color: #b03892;
-            border-radius: 25px;
-            text-align: center;
-            font-weight: bold;
             margin-top: 20px;
-            cursor: pointer;
-            color: white;
-        }
-        .quiz-container {
-            padding: 10px;
-            background-color: #444;
-            border-radius: 10px;
-        }
-        .quiz-title {
-            font-size: 26px;
-            color: #f7e1c9;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        .question-container {
-            margin-bottom: 15px;
-            padding: 10px;
-            background-color: #cb9fc6;
-            border-radius: 8px;
-        }
-        .question-text {
-            font-size: 18px;
-            color: #4d1948;
-            font-weight: bold;
-        }
-        .option-button {
-            padding: 12px;
-            border: 1px solid #666;
-            background-color: #f7e1c9;
-            border-radius: 8px;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-        .selected-option-button {
             background-color: #b03892;
-            border-color: #fff;
-        }
-        .option-text {
-            color: #4d1948;
-            font-size: 16px;
-            text-align: center;
-        }
-        .calculate-button {
-            padding: 15px;
-            background-color: #b03892;
+            color: #fff;
+            border: none;
             border-radius: 25px;
-            text-align: center;
-            font-weight: bold;
-            margin-top: 20px;
             cursor: pointer;
-            color: white;
         }
+        .button:hover {
+            background-color: #a02684;
+        }
+    .quiz-options label {
+        display: flex;
+        align-items: center;
+        background-color: #fff3db;
+        border: 2px solid #666;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        color: #a02684;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+    .quiz-options input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #b03892; /* Define a cor do círculo de seleção */
+    }
+    .quiz-options input[type="radio"]:checked + label {
+        background-color: #b03892;
+        color: #a02684;
+        border-color: #fff3db;
+    }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="title">Caminho de Aprendizagem</h1>
-        <p class="description">Aprenda HTML, CSS e JavaScript com módulos interativos.</p>
-
-        <div class="module-container">
-            <h2 class="module-title">1. HTML5: Semântica e Estruturas Avançadas</h2>
-            <p class="module-description">Aprenda a usar tags semânticas para melhorar a acessibilidade e SEO.</p>
-            <div class="step-container">
-                <p class="step-instruction">Crie uma estrutura HTML5 com seções, cabeçalho e rodapé.</p>
-                <pre class="example-code">
-<header>
-  <h1>Meu Blog</h1>
-</header>
-<section>
-  <article>
-    <h2>Título do Artigo</h2>
-    <p>Conteúdo do artigo...</p>
-  </article>
-</section>
-<footer>
-  <p>© 2024 Meu Blog</p>
-</footer>
-                </pre>
-                <input class="text-input" placeholder="Digite seu código aqui" />
-                <p class="hint">Dica: Use &lt;header&gt;, &lt;section&gt;, &lt;article&gt;, e &lt;footer&gt; para a estrutura.</p>
-            </div>
-            <div class="button" onclick="nextModule()">Próximo Módulo</div>
-        </div>
-
-        <div class="module-container">
-            <h2 class="module-title">2. CSS: Flexbox e Alinhamento Complexo</h2>
-            <p class="module-description">Domine o Flexbox para layouts dinâmicos e responsivos.</p>
-            <div class="step-container">
-                <p class="step-instruction">Crie um layout com três itens alinhados no centro usando Flexbox.</p>
-                <pre class="example-code">
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-.item {
-  margin: 10px;
-  padding: 20px;
-  background-color: lightcoral;
-}
-                </pre>
-                <input class="text-input" placeholder="Digite seu código aqui" />
-                <p class="hint">Dica: Use 'justify-content' e 'align-items' para centralizar.</p>
-            </div>
-            <div class="button" onclick="nextModule()">Próximo Módulo</div>
-        </div>
-
-        <div class="quiz-container">
-            <h2 class="quiz-title">Quiz Final</h2>
-            <div class="question-container">
-                <p class="question-text">Qual a principal vantagem de usar tags semânticas em HTML?</p>
-                <div class="option-button" onclick="selectAnswer(0, 'Aumenta a legibilidade do código para humanos e máquinas.')">Aumenta a legibilidade do código para humanos e máquinas.</div>
-                <div class="option-button" onclick="selectAnswer(0, 'Melhora o desempenho da página.')">Melhora o desempenho da página.</div>
-                <div class="option-button" onclick="selectAnswer(0, 'Facilita a estilização com CSS.')">Facilita a estilização com CSS.</div>
-            </div>
-            <div class="button" onclick="submitQuiz()">Calcular Pontuação</div>
-        </div>
+        <h1 class="title">Módulos de Aprendizado</h1>
+        <div id="moduleContainer"></div>
+        <button id="nextButton" class="button">Próximo Módulo</button>
     </div>
-
     <script>
-        let selectedAnswers = [];
+        const learningPathData = {
+            modules: [
+            {
+                id: 1,
+                title: "1. HTML5: Semântica e Estruturas Avançadas",
+                description: "Aprenda a usar tags semânticas para melhorar a acessibilidade e SEO.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Crie uma estrutura HTML5 com seções, cabeçalho e rodapé.",
+                        exampleCode: "<header>\n  <h1>Meu Blog</h1>\n</header>\n<section>\n  <article>\n    <h2>Título do Artigo</h2>\n    <p>Conteúdo do artigo...</p>\n  </article>\n</section>\n<footer>\n  <p>© 2024 Meu Blog</p>\n</footer>",
+                        hint: "Use <header>, <section>, <article>, e <footer> para a estrutura.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 2,
+                title: "2. CSS: Flexbox e Alinhamento Complexo",
+                description: "Domine o Flexbox para layouts dinâmicos e responsivos.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Crie um layout com três itens alinhados no centro usando Flexbox.",
+                        exampleCode: ".container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 100vh;\n}\n.item {\n  margin: 10px;\n  padding: 20px;\n  background-color: lightcoral;\n}",
+                        hint: "Use 'justify-content' e 'align-items' para centralizar.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 3,
+                title: "3. JavaScript: Funções Assíncronas e Promises",
+                description: "Entenda como trabalhar com funções assíncronas e Promises para lidar com operações assíncronas.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Crie uma função que busca dados de uma API e retorna uma Promise.",
+                        exampleCode: "function buscarDados(url) {\n  return fetch(url)\n    .then(response => response.json());\n}",
+                        hint: "Use 'fetch()' para fazer uma requisição à API.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 4,
+                title: "4. CSS: Transições e Transformações Avançadas",
+                description: "Aprenda a criar animações com transições e transformações CSS.",
+                interactiveContent: [
+                    {
+                        step: 1,
+                        instruction: "Crie uma animação que aumenta e muda a cor de um elemento ao passar o mouse.",
+                        exampleCode: ".box {\n  width: 100px;\n  height: 100px;\n  background-color: blue;\n  transition: transform 0.3s, background-color 0.3s;\n}\n.box:hover {\n  transform: scale(1.2);\n  background-color: green;\n}",
+                        hint: "Combine 'transform' e 'transition' para efeitos suaves.",
+                        userResponse: "code",
+                    },
+                ],
+            },
+            {
+                id: 5,
+                quiz: [
+                    {
+                        question: "1. Qual a principal vantagem de usar tags semânticas em HTML?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "Melhora o desempenho da página.",
+                            "Aumenta a legibilidade do código para humanos e máquinas.",
+                            "Facilita a estilização com CSS.",
+                        ],
+                        expectedAnswer: "Aumenta a legibilidade do código para humanos e máquinas.",
+                    },
+                    {
+                        question: "2. Como você centraliza um item flexível em um contêiner flexível?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "Usando 'margin: auto;'",
+                            "Definindo 'justify-content: center;' e 'align-items: center;'",
+                            "Usando 'text-align: center;'",
+                        ],
+                        expectedAnswer: "Definindo 'justify-content: center;' e 'align-items: center;'",
+                    },
+                    {
+                        question: "3. O que faz uma Promise em JavaScript?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "Retorna um valor sincrono.",
+                            "Representa uma operação que pode ser concluída agora ou no futuro.",
+                            "É um tipo de função que não aceita parâmetros.",
+                        ],
+                        expectedAnswer: "Representa uma operação que pode ser concluída agora ou no futuro.",
+                    },
+                    {
+                        question: "4. Qual propriedade CSS permite a criação de animações suaves?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "transition",
+                            "animation",
+                            "transform",
+                        ],
+                        expectedAnswer: "transition",
+                    },
+                    {
+                        question: "5. Como você manipula o DOM para adicionar um novo elemento em JavaScript?",
+                        answerType: "multipleChoice",
+                        options: [
+                            "document.addElement('div');",
+                            "document.appendChild('div');",
+                            "document.createElement('div');",
+                        ],
+                        expectedAnswer: "document.createElement('div');",
+                    },
+                ],
+            },
+        ],
+        };
 
-        function selectAnswer(questionIndex, answer) {
-            selectedAnswers[questionIndex] = answer;
-            const buttons = document.querySelectorAll(`.question-container:nth-child(${questionIndex + 1}) .option-button`);
-            buttons.forEach(button => button.classList.remove('selected-option-button'));
-            const selectedButton = [...buttons].find(button => button.innerText === answer);
-            selectedButton.classList.add('selected-option-button');
-        }
+        let currentModuleIndex = 0;
 
-        function submitQuiz() {
-            let score = 0;
-            const expectedAnswers = [
-                "Aumenta a legibilidade do código para humanos e máquinas.",
-            ];
+        function renderModule() {
+            const moduleContainer = document.getElementById('moduleContainer');
+            moduleContainer.innerHTML = '';
 
-            selectedAnswers.forEach((answer, index) => {
-                if (answer === expectedAnswers[index]) {
-                    score++;
+            const module = learningPathData.modules[currentModuleIndex];
+            if (module) {
+                const title = document.createElement('h2');
+                title.className = 'module-title';
+                title.textContent = module.title;
+
+                const description = document.createElement('p');
+                description.className = 'module-description';
+                description.textContent = module.description;
+
+                moduleContainer.appendChild(title);
+
+                if (module.interactiveContent) {
+                    module.interactiveContent.forEach(content => {
+                        const instruction = document.createElement('p');
+                        instruction.textContent = content.instruction;
+                        const exampleCode = document.createElement('pre');
+                        exampleCode.className = 'example-code';
+                        exampleCode.textContent = content.exampleCode;
+                        
+                        const codeInput = document.createElement('textarea');
+                        codeInput.className = 'text-input';
+                        codeInput.placeholder = "Escreva sua resposta aqui...";
+
+                        const hint = document.createElement('p');
+                        hint.textContent = `Dica: ${content.hint}`;
+
+
+
+                        moduleContainer.appendChild(instruction);
+                        moduleContainer.appendChild(exampleCode);
+                        moduleContainer.appendChild(codeInput);
+                        moduleContainer.appendChild(hint);
+                    });
                 }
-            });
 
-            alert(`Você acertou ${score} de ${expectedAnswers.length} perguntas.`);
+                // Renderizando o quiz (se houver)
+                if (module.quiz) {
+                    module.quiz.forEach(q => {
+                        const question = document.createElement('h3');
+                        question.textContent = q.question;
+
+                        moduleContainer.appendChild(question);
+
+                        if (q.answerType === 'multipleChoice') {
+                            const optionsContainer = document.createElement('div');
+                            optionsContainer.className = 'quiz-options';
+
+                            q.options.forEach(option => {
+                                const optionLabel = document.createElement('label');
+                                const optionInput = document.createElement('input');
+                                optionInput.type = 'radio';
+                                optionInput.name = q.question;
+                                optionInput.value = option;
+
+                                optionLabel.appendChild(optionInput);
+                                optionLabel.appendChild(document.createTextNode(option));
+                                optionsContainer.appendChild(optionLabel);
+                            });
+
+                            moduleContainer.appendChild(optionsContainer);
+                        }
+
+                        if (q.answerType === 'code') {
+                            const codeInput = document.createElement('textarea');
+                            codeInput.className = 'text-input';
+                            codeInput.placeholder = "Escreva sua resposta de código aqui...";
+                            moduleContainer.appendChild(codeInput);
+                        }
+                    });
+                }
+            }
+
+            const nextButton = document.getElementById('nextButton');
+            nextButton.style.display = 'block';
         }
 
-        function nextModule() {
-            alert('Passando para o próximo módulo!');
-        }
+        document.getElementById('nextButton').addEventListener('click', () => {
+            currentModuleIndex++;
+            if (currentModuleIndex < learningPathData.modules.length) {
+                renderModule();
+            } else {
+                alert('Você completou todos os módulos!');
+            }
+        });
+
+        renderModule();
     </script>
 </body>
 </html>
