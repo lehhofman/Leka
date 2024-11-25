@@ -172,8 +172,9 @@
 
 <body>
   <div class="container">
+    <!-- Botão para adicionar amigos -->
     <div class="button-container">
-      <div class="button" onclick="openCreateCommunityModal()">
+      <div class="button" onclick="openComunidadeModal()">
         <span class="button-text">Criar Comunidade</span>
       </div>
       <div class="button" onclick="openAddFriendsModal()">
@@ -181,7 +182,7 @@
       </div>
     </div>
 
-    <div class="communities-container" id="communitiesContainer"></div>
+    <div id="userKey" style="color: #f7e1c9; margin-bottom: 20px;"></div>
 
     <!-- Modal de Adicionar Amigos -->
     <div id="addFriendsModal" class="modal">
@@ -192,152 +193,142 @@
         <button onclick="addFriend()" class="accept-button">Adicionar</button>
         <h4>Convites Pendentes</h4>
         <div id="invitesList"></div>
+
+        <h4>Amigos</h4>
+        <div id="friendsList"></div> <!-- Aqui será exibida a lista de amigos -->
       </div>
     </div>
-
-    <!-- Modal Criar Comunidade -->
-    <div id="createCommunityModal" class="modal">
-      <div class="modal-content">
-        <span class="close-button" onclick="closeModal('createCommunityModal')">×</span>
-        <h3>Criar Comunidade</h3>
-        <input type="text" id="communityName" class="input" placeholder="Nome da comunidade" />
-        <textarea id="communityDescription" class="input" placeholder="Descrição da comunidade"></textarea>
-        <button onclick="createCommunity()" class="accept-button">Criar</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="accepted-friends-button" onclick="openAcceptedFriendsModal()">
-    <span style="color: #4d1948;">🙎‍♀️🙎‍♀️</span>
-  </div>
-
-  <div class="bottom-menu">
-    <a href="jogo.html" class="menu-item">
-      <i class="material-icons">games</i>
-      <span class="menu-text">Jogo</span>
-    </a>
-    <a href="resumo.html" class="menu-item">
-      <i class="material-icons">description</i>
-      <span class="menu-text">Resumo</span>
-    </a>
-    <a href="amigos.html" class="menu-item">
-      <i class="material-icons">group</i>
-      <span class="menu-text">Amigos</span>
-    </a>
-    <a href="perfil.html" class="menu-item">
-      <i class="material-icons">person</i>
-      <span class="menu-text">Perfil</span>
-    </a>
   </div>
 
   <script>
+    let currentUser = { }; // Usuário logado (substitua conforme necessário)
+    let invites = JSON.parse(localStorage.getItem('invites')) || [];
+    let friends = JSON.parse(localStorage.getItem('friends')) || [];
 
-    let invites = [];
-    let communities = [];
+    // Exibe a chave do usuário logado
+    document.getElementById("userKey").textContent = `Chave ID: ${currentUser.chave}`;
 
-    function openAddFriendsModal() {
-      document.getElementById('addFriendsModal').style.display = 'flex';
+    // Função para exibir a lista de usuários recebida do backend
+    async function displayUsers() {
+      const usersContainer = document.getElementById('usersContainer');
+      usersContainer.innerHTML = ''; // Limpar o conteúdo anterior
+
+      try {
+        // Requisição ao backend para pegar a lista de usuários
+        const response = await fetch('http://localhost:3000/api/usuarios');
+        const users = await response.json(); // Assumindo que a resposta seja um array de usuários
+
+        users.forEach(user => {
+          const userElement = document.createElement('div');
+          userElement.classList.add('community-item');
+          userElement.innerHTML = `
+            <div class="community-name">${user.nome}</div>
+            <div class="community-description">Chave: ${user.chave}</div>
+            <button onclick="sendInvite('${user.chave}')">Convidar</button>
+          `;
+          usersContainer.appendChild(userElement);
+        });
+      } catch (error) {
+        console.error('Erro ao carregar usuários:', error);
+      }
     }
 
+    // Função para enviar convite
+    function sendInvite(friendKey) {
+      const invite = {
+        id: Date.now(),
+        inviteFrom: currentUser.chave,
+        inviteTo: friendKey,
+        status: 'pendente'
+      };
+      invites.push(invite);
+      localStorage.setItem('invites', JSON.stringify(invites));
+      alert('Convite enviado!');
+      displayInvites();
+    }
+
+    // Exibe convites pendentes
+    function displayInvites() {
+      const invitesContainer = document.getElementById('invitesContainer');
+      invitesContainer.innerHTML = ''; // Limpar conteúdo anterior
+
+      invites.filter(invite => invite.inviteFrom === currentUser.chave && invite.status === 'pendente')
+        .forEach(invite => {
+          const inviteElement = document.createElement('div');
+          inviteElement.classList.add('community-item');
+          inviteElement.innerHTML = `
+            <div class="community-name">Convite para ${invite.inviteTo}</div>
+            <button onclick="acceptInvite(${invite.id})">Aceitar</button>
+            <button onclick="rejectInvite(${invite.id})">Recusar</button>
+          `;
+          invitesContainer.appendChild(inviteElement);
+        });
+    }
+
+    // Aceitar convite
+    function acceptInvite(inviteId) {
+      const invite = invites.find(inv => inv.id === inviteId);
+      invite.status = 'aceito';
+      // Adiciona aos amigos
+      friends.push({ chave: invite.inviteFrom });
+      friends.push({ chave: invite.inviteTo });
+
+      localStorage.setItem('invites', JSON.stringify(invites));
+      localStorage.setItem('friends', JSON.stringify(friends));
+      alert('Convite aceito!');
+      displayInvites();
+      displayFriends(); // Atualiza a lista de amigos
+    }
+
+    // Recusar convite
+    function rejectInvite(inviteId) {
+      const inviteIndex = invites.findIndex(inv => inv.id === inviteId);
+      invites.splice(inviteIndex, 1);
+      localStorage.setItem('invites', JSON.stringify(invites));
+      alert('Convite recusado!');
+      displayInvites();
+    }
+
+    // Exibe amigos
+    function displayFriends() {
+      const friendsContainer = document.getElementById('friendsList');
+      friendsContainer.innerHTML = '';
+
+      friends.forEach(friend => {
+        const friendElement = document.createElement('div');
+        friendElement.classList.add('list-item');
+        friendElement.innerHTML = `Amigo: ${friend.chave}`;
+        friendsContainer.appendChild(friendElement);
+      });
+    }
+
+    // Abre o modal de adicionar amigos
+    function openAddFriendsModal() {
+      document.getElementById('addFriendsModal').style.display = 'flex';
+      displayInvites();
+      displayFriends();
+    }
+
+    // Fecha o modal
     function closeModal(modalId) {
       document.getElementById(modalId).style.display = 'none';
     }
 
-    function openCreateCommunityModal() {
-      document.getElementById('createCommunityModal').style.display = 'flex';
-    }
-
+    // Envia solicitação de amizade
     function addFriend() {
-      let friendKey = document.getElementById('friendKey').value.trim();
-      if (friendKey === '') {
-        alert('Por favor, insira a chave do amigo.');
-        return;
-      }
-
-      // Verifica se a chave digitada existe nos usuários cadastrados
-      let friend = users.find(user => user.chave === friendKey);
-
-      if (friend) {
-        // Se o amigo for encontrado, cria o convite
-        let invite = {
-          id: Date.now(),
-          inviteFrom: currentUser.chave,
-          inviteTo: friend.chave,
-          status: 'pendente',
-          nome: friend.nome
-        };
-
-        // Adiciona o convite à lista de convites
-        invites.push(invite);
-        updateInvitesList(); // Atualiza a lista de convites pendentes
-
-        alert(`Convite enviado para ${friend.nome}`);
-      } else {
-        // Se o amigo não for encontrado
-        alert('Amigo não encontrado. Verifique a chave inserida.');
-      }
+      const friendKey = document.getElementById('friendKey').value;
+      // Chama a função para enviar convite
+      sendInvite(friendKey);
     }
 
-    function updateInvitesList() {
-      const invitesList = document.getElementById('invitesList');
-      invitesList.innerHTML = '';
-      invites.forEach(invite => {
-        const inviteElement = document.createElement('div');
-        inviteElement.classList.add('list-item');
-        inviteElement.innerHTML = `Convite para ${invite.nome} <button onclick="acceptInvite('${invite.id}')" class="accept-button">Aceitar</button>`;
-        invitesList.appendChild(inviteElement);
-      });
+    // Fecha todos os modais
+    function closeAllModals() {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => modal.style.display = 'none');
     }
 
-    function acceptInvite(inviteId) {
-      const invite = invites.find(i => i.id == inviteId);
-      if (invite) {
-        invites = invites.filter(i => i.id !== inviteId);
-        alert(`Convite aceito para ${invite.nome}`);
-        updateInvitesList();
-      }
-    }
-
-    function createCommunity() {
-      let name = document.getElementById('communityName').value;
-      let description = document.getElementById('communityDescription').value;
-      if (name.trim() === '' || description.trim() === '') {
-        alert('Por favor, preencha o nome e a descrição da comunidade.');
-        return;
-      }
-      const newCommunity = {
-        id: Date.now().toString(),
-        name: name,
-        description: description,
-        createdBy: currentUser.chave,
-        participants: [currentUser.chave],
-      };
-      communities.push(newCommunity);
-      displayCommunities();
-      closeModal('createCommunityModal');
-    }
-
-    function displayCommunities() {
-      const communitiesContainer = document.getElementById('communitiesContainer');
-      communitiesContainer.innerHTML = '';
-      communities.forEach(community => {
-        const communityElement = document.createElement('div');
-        communityElement.classList.add('community-item');
-        communityElement.innerHTML = `
-          <div class="community-name">${community.name}</div>
-          <div class="community-description">${community.description}</div>
-        `;
-        communitiesContainer.appendChild(communityElement);
-      });
-    }
-
-    function openAcceptedFriendsModal() {
-      alert('Lista de amigos aceitos');
-    }
-
-    function navigate(page) {
-      alert('Navegando para: ' + page);
-    }
+    // Exibe todos os amigos
+    displayFriends();
   </script>
 </body>
 

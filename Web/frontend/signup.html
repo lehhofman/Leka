@@ -200,10 +200,6 @@
             }
         });
 
-        // Função para gerar uma chave aleatória
-        function gerarChaveAleatoria() {
-            return Math.random().toString(36).substr(2, 10); // Gera uma chave de 10 caracteres alfanuméricos
-        }
 
         togglePassword.addEventListener('click', () => {
             const type = senha.type === 'password' ? 'text' : 'password';
@@ -248,12 +244,6 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Gerar chave aleatória para o usuário
-                    const chaveAleatoria = gerarChaveAleatoria();
-
-                    // Mostrar a chave para o usuário
-                    alert(`Cadastro realizado com sucesso! Sua chave é: ${chaveAleatoria}`);
-
                     window.location.href = 'motivo.html'; // Redireciona para outra página após o cadastro
                 } else {
                     alert(`Erro: ${data.message}`);

@@ -8,8 +8,8 @@ const Resumo = require('./controllers/resumo');
 router.post('/signup', Usuario.create);
 router.post('/login', Usuario.login);
 router.get('/perfil', Middleware.validaAcesso, Usuario.perfil);
-router.get('/usuarios', Middleware.validaAcesso, Usuario.read);
-router.get('/usuarios/:id', Middleware.validaAcesso, Usuario.read);
+router.get('/usuarios', Usuario.read);
+router.get('/usuarios/:id', Usuario.read);
 router.put('/usuarios/:id', Middleware.validaAcesso, Usuario.update);
 router.delete('/usuarios/:id', Middleware.validaAcesso, Usuario.del);
 
