@@ -165,6 +165,14 @@
       font-size: 30px;
       color: #4d1948;
     }
+    .key {
+  font-size: 16px;
+  color: #ffffff; /* Cor para a chave */
+  font-weight: bold;
+  font-size: 15px;
+  margin-left: 10px; /* Espaço entre o nome e a chave */
+  display: inline-block;
+}
   </style>
 </head>
 
@@ -175,6 +183,8 @@
     </div>
     <h2 class="name" id="userName">Nome do Usuário</h2>
     <p class="contact-info" id="userContact">email@dominio.com | (11) 12345-6789</p>
+
+    <p class="key" id="userKey">Chave ID: </p>
 
     <div class="button">
       <span class="button-text">Progressos</span>
@@ -242,41 +252,52 @@
       closeModal();
     }
 
-    // Função para carregar os dados do perfil e a imagem
     async function getProfile() {
-      const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("authToken");
 
-      if (!token) {
+    if (!token) {
         alert("Você precisa estar logado para acessar o perfil.");
         window.location.href = "login.html";
         return;
-      }
+    }
 
-      const savedImage = localStorage.getItem('profileImage'); // Recuperar a imagem do perfil
-      if (savedImage) {
+    const savedImage = localStorage.getItem('profileImage'); // Recuperar a imagem do perfil
+    if (savedImage) {
         document.getElementById("profileImage").src = savedImage;
-      }
+    }
 
-      try {
+    try {
         const response = await fetch("http://localhost:3000/api/perfil", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
 
         if (response.ok) {
-          const data = await response.json();
-          document.getElementById("userName").textContent = data.nome;
-          document.getElementById("userContact").textContent = `${data.email} | ${data.telefone}`;
+            const data = await response.json();
+            document.getElementById("userName").textContent = data.nome ;
+            
+            document.getElementById("userContact").textContent = `${data.email} | ${data.telefone}`;
+
+            document.getElementById("userKey").textContent = `Chave ID: ${data.chave}` ;
+
+            // Recuperar e mostrar a chave ao lado do nome
+            const chaveAleatoria = localStorage.getItem('userKey'); // Recupera a chave do localStorage
+            if (chaveAleatoria) {
+                document.getElementById("userKey").textContent = `Chave: ${chave}`;
+            }
+
         } else {
-          alert("Erro ao carregar perfil.");
+            alert("Erro ao carregar perfil.");
         }
-      } catch (error) {
+    } catch (error) {
         console.error("Erro ao buscar perfil:", error);
         alert("Erro ao carregar perfil.");
-      }
     }
+}
+
+
 
     // Chama a função ao carregar a página
     document.addEventListener("DOMContentLoaded", () => {

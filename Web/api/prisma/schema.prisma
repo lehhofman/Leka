@@ -13,6 +13,7 @@ model Usuario {
   email      String    @unique
   telefone   String    @unique
   senha      String
+   chave    String
   vidas      Int       @default(5)
   pontuacao  Int       @default(0)
   progresso  Int       @default(0)

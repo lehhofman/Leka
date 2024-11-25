@@ -5,6 +5,7 @@ CREATE TABLE `Usuario` (
     `email` VARCHAR(191) NOT NULL,
     `telefone` VARCHAR(191) NOT NULL,
     `senha` VARCHAR(191) NOT NULL,
+    `chave` VARCHAR(191) NOT NULL,
     `vidas` INTEGER NOT NULL DEFAULT 5,
     `pontuacao` INTEGER NOT NULL DEFAULT 0,
     `progresso` INTEGER NOT NULL DEFAULT 0,
