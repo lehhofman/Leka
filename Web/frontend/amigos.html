@@ -44,27 +44,6 @@
       font-weight: bold;
     }
 
-    .communities-container {
-      margin-top: 20px;
-    }
-
-    .community-item {
-      background-color: #444;
-      padding: 15px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      color: #f7e1c9;
-    }
-
-    .community-name {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .community-description {
-      font-size: 14px;
-    }
-
     /* Modal Styles */
     .modal {
       display: none;
@@ -172,7 +151,7 @@
 
 <body>
   <div class="container">
-    <!-- Botão para adicionar amigos -->
+    <!-- Botões -->
     <div class="button-container">
       <div class="button" onclick="openComunidadeModal()">
         <span class="button-text">Criar Comunidade</span>
@@ -180,9 +159,13 @@
       <div class="button" onclick="openAddFriendsModal()">
         <span class="button-text">Adicionar Amigos</span>
       </div>
+      <!-- Novo Botão Amigos -->
+      <div class="button" onclick="openFriendsModal()">
+        <span class="button-text">Amigos</span>
+      </div>
     </div>
 
-    <div id="userKey" style="color: #f7e1c9; margin-bottom: 20px;"></div>
+    <div id="userKey" style="color: #333; margin-bottom: 20px;"></div>
 
     <!-- Modal de Adicionar Amigos -->
     <div id="addFriendsModal" class="modal">
@@ -193,47 +176,46 @@
         <button onclick="addFriend()" class="accept-button">Adicionar</button>
         <h4>Convites Pendentes</h4>
         <div id="invitesList"></div>
+      </div>
+    </div>
 
-        <h4>Amigos</h4>
-        <div id="friendsList"></div> <!-- Aqui será exibida a lista de amigos -->
+    <!-- Modal de Amigos -->
+    <div id="friendsModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeModal('friendsModal')">×</span>
+        <h3>Amigos Aceitos</h3>
+        <div id="friendsList"></div>
       </div>
     </div>
   </div>
 
   <script>
-    let currentUser = { }; // Usuário logado (substitua conforme necessário)
+    let currentUser = { chave: "12345" }; // Usuário logado (substitua conforme necessário)
     let invites = JSON.parse(localStorage.getItem('invites')) || [];
     let friends = JSON.parse(localStorage.getItem('friends')) || [];
 
     // Exibe a chave do usuário logado
     document.getElementById("userKey").textContent = `Chave ID: ${currentUser.chave}`;
 
-    // Função para exibir a lista de usuários recebida do backend
-    async function displayUsers() {
-      const usersContainer = document.getElementById('usersContainer');
-      usersContainer.innerHTML = ''; // Limpar o conteúdo anterior
+    // Função para exibir a lista de convites pendentes
+    function displayInvites() {
+      const invitesContainer = document.getElementById('invitesList');
+      invitesContainer.innerHTML = ''; // Limpar conteúdo anterior
 
-      try {
-        // Requisição ao backend para pegar a lista de usuários
-        const response = await fetch('http://localhost:3000/api/usuarios');
-        const users = await response.json(); // Assumindo que a resposta seja um array de usuários
-
-        users.forEach(user => {
-          const userElement = document.createElement('div');
-          userElement.classList.add('community-item');
-          userElement.innerHTML = `
-            <div class="community-name">${user.nome}</div>
-            <div class="community-description">Chave: ${user.chave}</div>
-            <button onclick="sendInvite('${user.chave}')">Convidar</button>
+      invites.filter(invite => invite.inviteFrom === currentUser.chave && invite.status === 'pendente')
+        .forEach(invite => {
+          const inviteElement = document.createElement('div');
+          inviteElement.classList.add('community-item');
+          inviteElement.innerHTML = `  
+            <div class="community-name">Convite para ${invite.inviteTo}</div>
+            <button onclick="acceptInvite(${invite.id})">Aceitar</button>
+            <button onclick="rejectInvite(${invite.id})">Recusar</button>
           `;
-          usersContainer.appendChild(userElement);
+          invitesContainer.appendChild(inviteElement);
         });
-      } catch (error) {
-        console.error('Erro ao carregar usuários:', error);
-      }
     }
 
-    // Função para enviar convite
+    // Função para adicionar amigo
     function sendInvite(friendKey) {
       const invite = {
         id: Date.now(),
@@ -247,40 +229,19 @@
       displayInvites();
     }
 
-    // Exibe convites pendentes
-    function displayInvites() {
-      const invitesContainer = document.getElementById('invitesContainer');
-      invitesContainer.innerHTML = ''; // Limpar conteúdo anterior
-
-      invites.filter(invite => invite.inviteFrom === currentUser.chave && invite.status === 'pendente')
-        .forEach(invite => {
-          const inviteElement = document.createElement('div');
-          inviteElement.classList.add('community-item');
-          inviteElement.innerHTML = `
-            <div class="community-name">Convite para ${invite.inviteTo}</div>
-            <button onclick="acceptInvite(${invite.id})">Aceitar</button>
-            <button onclick="rejectInvite(${invite.id})">Recusar</button>
-          `;
-          invitesContainer.appendChild(inviteElement);
-        });
-    }
-
-    // Aceitar convite
     function acceptInvite(inviteId) {
       const invite = invites.find(inv => inv.id === inviteId);
       invite.status = 'aceito';
-      // Adiciona aos amigos
-      friends.push({ chave: invite.inviteFrom });
-      friends.push({ chave: invite.inviteTo });
+
+      // Adiciona o amigo aceito à lista
+      friends.push(invite.inviteTo);
+      localStorage.setItem('friends', JSON.stringify(friends));
 
       localStorage.setItem('invites', JSON.stringify(invites));
-      localStorage.setItem('friends', JSON.stringify(friends));
       alert('Convite aceito!');
       displayInvites();
-      displayFriends(); // Atualiza a lista de amigos
     }
 
-    // Recusar convite
     function rejectInvite(inviteId) {
       const inviteIndex = invites.findIndex(inv => inv.id === inviteId);
       invites.splice(inviteIndex, 1);
@@ -289,46 +250,42 @@
       displayInvites();
     }
 
-    // Exibe amigos
-    function displayFriends() {
-      const friendsContainer = document.getElementById('friendsList');
-      friendsContainer.innerHTML = '';
-
-      friends.forEach(friend => {
-        const friendElement = document.createElement('div');
-        friendElement.classList.add('list-item');
-        friendElement.innerHTML = `Amigo: ${friend.chave}`;
-        friendsContainer.appendChild(friendElement);
-      });
-    }
-
-    // Abre o modal de adicionar amigos
     function openAddFriendsModal() {
       document.getElementById('addFriendsModal').style.display = 'flex';
       displayInvites();
-      displayFriends();
     }
 
-    // Fecha o modal
     function closeModal(modalId) {
       document.getElementById(modalId).style.display = 'none';
     }
 
-    // Envia solicitação de amizade
     function addFriend() {
       const friendKey = document.getElementById('friendKey').value;
-      // Chama a função para enviar convite
       sendInvite(friendKey);
     }
 
-    // Fecha todos os modais
-    function closeAllModals() {
-      const modals = document.querySelectorAll('.modal');
-      modals.forEach(modal => modal.style.display = 'none');
+    // Exibe os amigos aceitos
+    function openFriendsModal() {
+      const friendsContainer = document.getElementById('friendsList');
+      friendsContainer.innerHTML = ''; // Limpar conteúdo anterior
+
+      if (friends.length === 0) {
+        friendsContainer.innerHTML = '<p>Nenhum amigo aceito ainda.</p>';
+      } else {
+        friends.forEach(friend => {
+          const friendElement = document.createElement('div');
+          friendElement.classList.add('community-item');
+          friendElement.innerHTML = `
+            <div class="community-name">${friend}</div>
+          `;
+          friendsContainer.appendChild(friendElement);
+        });
+      }
+
+      document.getElementById('friendsModal').style.display = 'flex';
     }
 
-    // Exibe todos os amigos
-    displayFriends();
+    displayInvites();
   </script>
 </body>
 
