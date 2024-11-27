@@ -62,7 +62,7 @@ const create = async (req, res) => {
                 email: email,
                 telefone: telefone,
                 senha: senha,
-                chave: chave // Adiciona a chave ao cadastro
+                chave: chave
             }
         });
 
@@ -80,17 +80,29 @@ const create = async (req, res) => {
 // Função para leitura de usuário
 const read = async (req, res) => {
     if (req.params.id !== undefined) {
+        // Consulta para um único usuário, retornando nome e id (não mais a chave)
         const usuario = await prisma.usuario.findUnique({
             where: {
                 id: parseInt(req.params.id, 10)
+            },
+            select: {
+                nome: true,
+                id: true  // Mudança aqui, substituindo 'chave' por 'id'
             }
         });
         return res.json(usuario);
     } else {
-        const usuarios = await prisma.usuario.findMany();
+        // Consulta para todos os usuários, retornando nome e id (não mais a chave)
+        const usuarios = await prisma.usuario.findMany({
+            select: {
+                nome: true,
+                id: true  // Mudança aqui, substituindo 'chave' por 'id'
+            }
+        });
         return res.json(usuarios);
     }
 };
+
 
 // Função de atualização de usuário
 const update = async (req, res) => {
@@ -143,6 +155,8 @@ const perfil = async (req, res) => {
         return res.status(500).json({ message: "Erro ao carregar perfil", error: error.message });
     }
 };
+
+
 
 module.exports = {
     login,

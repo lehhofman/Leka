@@ -276,21 +276,16 @@
 
         if (response.ok) {
             const data = await response.json();
-            document.getElementById("userName").textContent = data.nome ;
-            
+            document.getElementById("userName").textContent = data.nome;
             document.getElementById("userContact").textContent = `${data.email} | ${data.telefone}`;
 
-            document.getElementById("userKey").textContent = `Chave ID: ${data.chave}` ;
-
-            // Recuperar e mostrar a chave ao lado do nome
-            const chaveAleatoria = localStorage.getItem('userKey'); // Recupera a chave do localStorage
-            if (chaveAleatoria) {
-                document.getElementById("userKey").textContent = `Chave: ${chave}`;
-            }
-
+            // Exibindo o ID do usuário
+            document.getElementById("userKey").textContent = `ID do Usuário: ${data.id}`;
         } else {
+            console.error("Erro ao carregar os dados do perfil.");
         }
     } catch (error) {
+        console.error("Erro na requisição ao servidor: ", error);
     }
 }
 

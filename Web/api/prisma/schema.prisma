@@ -110,3 +110,4 @@ model Message {
   usuario     Usuario   @relation(fields: [usuarioId], references: [id])
   community   Community @relation(fields: [communityId], references: [id])
 }
+
