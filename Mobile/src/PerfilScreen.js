@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
-  const [user, setUser] = useState({ nome: '', email: '', celular: '' });
+  const [user, setUser] = useState({ nome: '', email: '', celular: '', id: '' });
   const [profileImage, setProfileImage] = useState('https://i.pinimg.com/736x/3f/94/70/3f9470b34a8e3f526dbdb022f9f19cf7.jpg');
   const [isModalVisible, setModalVisible] = useState(false);
   const [isProgressModalVisible, setProgressModalVisible] = useState(false);
+  const [userProgress, setUserProgress] = useState(0);
   const [isCertificateModalVisible, setCertificateModalVisible] = useState(false);
   const [isFriendsModalVisible, setFriendsModalVisible] = useState(false);
   const [acceptedFriends, setAcceptedFriends] = useState([]);
-  const [userProgress, setUserProgress] = useState(0);
 
   const profileImages = [
     'https://img.freepik.com/vetores-premium/uma-ilustracao-de-desenho-animado-de-uma-menina-com-fones-de-ouvido-e-um-telefone-celular-na-mao_569725-49415.jpg?semt=ais_hybrid',
@@ -24,73 +24,58 @@ const ProfileScreen = () => {
   ];
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const loadUserData = async () => {
       try {
         const currentUserString = await AsyncStorage.getItem('currentUser');
         if (currentUserString) {
-          setUser(JSON.parse(currentUserString));
+          const userData = JSON.parse(currentUserString);
+          setUser(userData);
+          fetchUserProgress(userData.email);
+          fetchUserFriends(userData.email);
         }
       } catch (error) {
         console.error('Erro ao buscar os dados do usuário logado:', error);
       }
     };
 
-
-
-    const fetchProfileImage = async () => {
-      try {
-        const savedImage = await AsyncStorage.getItem('profileImage');
-        if (savedImage) {
-          setProfileImage(savedImage);
-        }
-      } catch (error) {
-        console.error('Erro ao carregar a imagem de perfil:', error);
+    const loadProfileImage = async () => {
+      const savedImage = await AsyncStorage.getItem('profileImage');
+      if (savedImage) {
+        setProfileImage(savedImage);
       }
     };
 
-    const fetchProgress = async () => {
-      try {
-        const storedProgress = await AsyncStorage.getItem('userProgress');
-        if (storedProgress !== null) {
-          setUserProgress(parseInt(storedProgress, 10));
-        }
-      } catch (error) {
-        console.error('Erro ao buscar o progresso do usuário:', error);
-      }
-    };
-
-    fetchUserData();
-    fetchProfileImage();
-    fetchProgress();
+    loadUserData();
+    loadProfileImage();
   }, []);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      const fetchProgress = async () => {
-        try {
-          const storedProgress = await AsyncStorage.getItem('userProgress');
-          if (storedProgress !== null) {
-            setUserProgress(parseInt(storedProgress, 10));
-          }
-        } catch (error) {
-          console.error('Erro ao buscar o progresso do usuário:', error);
-        }
-      };
-      fetchProgress();
-    }, [])
-  );
-
-  const openModal = () => {
-    setModalVisible(true);
+  const handleImageSelect = async (imageUri) => {
+    setProfileImage(imageUri);
+    await AsyncStorage.setItem('profileImage', imageUri);
+    setModalVisible(false);
   };
 
-  const selectImage = async (uri) => {
+  const fetchUserProgress = async (email) => {
     try {
-      await AsyncStorage.setItem('profileImage', uri);
-      setProfileImage(uri);
-      setModalVisible(false);
+      const userData = await AsyncStorage.getItem(`userData_${email}`);
+      if (userData) {
+        const { progress } = JSON.parse(userData);
+        setUserProgress(progress);
+      }
     } catch (error) {
-      console.error('Erro ao salvar a imagem de perfil:', error);
+      console.error('Erro ao buscar o progresso do usuário:', error);
+    }
+  };
+
+  const fetchUserFriends = async (email) => {
+    try {
+      const friendsData = await AsyncStorage.getItem(`friends_${email}`);
+      if (friendsData) {
+        const friends = JSON.parse(friendsData);
+        setAcceptedFriends(friends.filter(friend => friend.status === 'accepted'));
+      }
+    } catch (error) {
+      console.error('Erro ao buscar os amigos do usuário:', error);
     }
   };
 
@@ -124,18 +109,31 @@ const ProfileScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.profileImageContainer}>
-        <TouchableOpacity onPress={openModal}>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
           <Image source={{ uri: profileImage }} style={styles.profileImage} />
         </TouchableOpacity>
-        
       </View>
       <Text style={styles.name}>{user.nome}</Text>
       <Text style={styles.userId}>ID: {user.id}</Text>
       <Text style={styles.contactInfo}>{user.email} | {user.celular}</Text>
 
       <TouchableOpacity style={styles.button} onPress={() => setProgressModalVisible(true)}>
-        <Text style={styles.buttonText}>Progressos</Text>
+        <Text style={styles.buttonText}>Progresso: {userProgress}%</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => setCertificateModalVisible(true)}>
+        <Text style={styles.buttonText}>Certificados</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => setFriendsModalVisible(true)}>
+        <Text style={styles.buttonText}>Amigos</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.editButton}>
+        <Text style={styles.editButtonText}>ALTERAR PERFIL</Text>
+      </TouchableOpacity>
+
+      {/* Modal de Progresso */}
       <Modal visible={isProgressModalVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -160,9 +158,7 @@ const ProfileScreen = () => {
         </View>
       </Modal>
 
-      <TouchableOpacity style={styles.button} onPress={() => setCertificateModalVisible(true)}>
-        <Text style={styles.buttonText}>Certificados</Text>
-      </TouchableOpacity>
+      {/* Modal de Certificado */}
       <Modal visible={isCertificateModalVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -177,9 +173,7 @@ const ProfileScreen = () => {
         </View>
       </Modal>
 
-      <TouchableOpacity style={styles.button} onPress={() => setFriendsModalVisible(true)}>
-        <Text style={styles.buttonText}>Amigos</Text>
-      </TouchableOpacity>
+      {/* Modal de Amigos */}
       <Modal visible={isFriendsModalVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -202,36 +196,9 @@ const ProfileScreen = () => {
         </View>
       </Modal>
 
-      <TouchableOpacity style={styles.editButton}>
-        <Text style={styles.editButtonText}>ALTERAR PERFIL</Text>
-      </TouchableOpacity>
-
-      <Modal visible={isModalVisible} transparent={true} animationType="slide">
-  <View style={styles.modalContainer}>
-    <View style={styles.modalContent}>
-      <Text style={styles.modalTitle}>Escolha uma imagem</Text>
-      <FlatList
-        data={profileImages}
-        keyExtractor={(item) => item}
-        horizontal
-        showsHorizontalScrollIndicator={false} // Para esconder a barra de rolagem
-        contentContainerStyle={styles.imageListContainer}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => selectImage(item)} style={styles.imageItem}>
-            <Image source={{ uri: item }} style={styles.modalImage} />
-          </TouchableOpacity>
-        )}
-      />
-      <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
-        <Text style={styles.closeButtonText}>Fechar</Text>
-      </TouchableOpacity>
-    </View>
-  </View>
-</Modal>
-
-
+      {/* Bottom Menu */}
       <View style={styles.bottomMenu}>
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Game')}>
+      <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Game')}>
           <MaterialIcons name="games" size={30} color="#4d1948" />
           <Text style={styles.menuText}>Jogo</Text>
         </TouchableOpacity>
@@ -251,7 +218,6 @@ const ProfileScreen = () => {
     </View>
   );
 };
-
 
 
 const styles = StyleSheet.create({

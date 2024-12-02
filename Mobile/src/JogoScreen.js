@@ -9,33 +9,47 @@ const GameScreen = ({ navigation }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const loadProgress = async () => {
+    const loadUserData = async () => {
       try {
-        const savedProgress = await AsyncStorage.getItem('userProgress');
-        if (savedProgress !== null) {
-          setProgress(parseInt(savedProgress, 10));
+        const currentUser = await AsyncStorage.getItem('currentUser');
+        if (currentUser) {
+          const user = JSON.parse(currentUser);
+          const userData = await AsyncStorage.getItem(`userData_${user.email}`);
+          if (userData) {
+            const { lives, score, progress } = JSON.parse(userData);
+            setLives(lives);
+            setScore(score);
+            setProgress(progress);
+          }
         }
       } catch (error) {
-        console.error('Erro ao carregar o progresso:', error);
+        console.error('Erro ao carregar dados do usuário:', error);
       }
     };
-    loadProgress();
+    loadUserData();
   }, []);
+  
 
   useEffect(() => {
-    const saveProgress = async () => {
+    const saveUserData = async () => {
       try {
-        await AsyncStorage.setItem('userProgress', progress.toString());
+        const currentUser = await AsyncStorage.getItem('currentUser');
+        if (currentUser) {
+          const user = JSON.parse(currentUser);
+          const userData = { lives, score, progress };
+          await AsyncStorage.setItem(`userData_${user.email}`, JSON.stringify(userData));
+        }
       } catch (error) {
-        console.error('Erro ao salvar o progresso:', error);
+        console.error('Erro ao salvar dados do usuário:', error);
       }
     };
-    saveProgress();
-  }, [progress]);
+    saveUserData();
+  }, [lives, score, progress]);
+  
 
   const goToGame = (phase) => {
     const screenMap = {
-      0: 'jogo',
+      0: 'Pergunta',
       1: 'Jogo1',
       2: 'Jogo2',
       3: 'Jogo3',

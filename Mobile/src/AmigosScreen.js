@@ -17,7 +17,6 @@ const CommunityScreen = ({ navigation }) => {
   const [communityDescription, setCommunityDescription] = useState('');
   const [selectedParticipants, setSelectedParticipants] = useState([]);
   const [communities, setCommunities] = useState([]);
-
   useEffect(() => {
     const loadData = async () => {
       const currentUserString = await AsyncStorage.getItem('currentUser');
@@ -25,20 +24,27 @@ const CommunityScreen = ({ navigation }) => {
       setCurrentUser(user);
 
       if (user) {
+        // Filtrar convites para o usuário atual (mostrar apenas convites recebidos)
         const invitesString = await AsyncStorage.getItem('invites');
         const storedInvites = invitesString ? JSON.parse(invitesString) : [];
-        setInvites(storedInvites.filter(invite => invite.inviteTo === user.id));
 
+        // Aqui, filtra convites para o usuário atual
+        const receivedInvites = storedInvites.filter(invite => invite.inviteTo === user.id);
+        setInvites(receivedInvites);  // Atualiza os convites somente para o usuário atual
+
+        // Carregar amigos aceitos
         const acceptedFriendsString = await AsyncStorage.getItem('acceptedFriends');
         const storedAcceptedFriends = acceptedFriendsString ? JSON.parse(acceptedFriendsString) : [];
         setAcceptedFriends(storedAcceptedFriends.filter(friend =>
           friend.userId === user.id || friend.friendId === user.id
         ));
 
+        // Carregar lista de amigos
         const usersString = await AsyncStorage.getItem('users');
         const users = usersString ? JSON.parse(usersString) : [];
         setFriends(users);
 
+        // Carregar comunidades
         const communitiesString = await AsyncStorage.getItem('communities');
         const storedCommunities = communitiesString ? JSON.parse(communitiesString) : [];
         setCommunities(storedCommunities.filter(community =>
@@ -48,6 +54,8 @@ const CommunityScreen = ({ navigation }) => {
     };
     loadData();
   }, []);
+
+
 
   const addFriend = async () => {
     if (friendId.trim() !== '') {
@@ -72,17 +80,19 @@ const CommunityScreen = ({ navigation }) => {
   const sendInvite = async (friend) => {
     if (currentUser) {
       try {
+        // Criar um novo convite
         const newInvite = {
           id: Date.now().toString(),
-          inviteFrom: currentUser.id,
-          inviteTo: friend.id,
+          inviteFrom: currentUser.id, // Remetente
+          inviteTo: friend.id, // Destinatário
           status: 'pendente',
           nome: friend.nome,
         };
 
-        const updatedInvites = [...invites, newInvite];
-        setInvites(updatedInvites);
-        await AsyncStorage.setItem('invites', JSON.stringify(updatedInvites));
+        // Atualizar apenas os convites que são enviados para o amigo (não inclui o remetente)
+        const updatedInvites = [...invites.filter(invite => invite.inviteTo !== currentUser.id), newInvite];
+        setInvites(updatedInvites); // Atualizar estado
+        await AsyncStorage.setItem('invites', JSON.stringify(updatedInvites)); // Atualizar no AsyncStorage
 
         Alert.alert('Convite Enviado', `Convite enviado para ${friend.nome}`);
       } catch (error) {
@@ -90,6 +100,8 @@ const CommunityScreen = ({ navigation }) => {
       }
     }
   };
+
+
 
   const acceptInvite = async (invite) => {
     try {
@@ -124,7 +136,7 @@ const CommunityScreen = ({ navigation }) => {
 
       setAcceptedFriends(uniqueAcceptedFriends);
 
-      const updatedInvites = invites.filter((item) => item.id !== invite.id);
+      const updatedInvites = invites.filter((item) => item.id !== invite.id); // Excluir convite do destinatário
       setInvites(updatedInvites);
 
       await AsyncStorage.setItem('acceptedFriends', JSON.stringify(uniqueAcceptedFriends));
@@ -134,6 +146,7 @@ const CommunityScreen = ({ navigation }) => {
       Alert.alert('Erro', 'Ocorreu um erro ao aceitar o convite.');
     }
   };
+
 
   const createCommunity = async () => {
     if (communityName.trim() === '' || communityDescription.trim() === '') {
@@ -255,9 +268,9 @@ const CommunityScreen = ({ navigation }) => {
               </View>
             )}
           />
+
         </View>
       </Modal>
-      {/* Modal Amigos Aceitos */}
       <TouchableOpacity
         style={styles.acceptedFriendsButton}
         onPress={() => setAcceptedFriendsModalVisible(true)}
