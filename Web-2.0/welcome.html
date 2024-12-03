@@ -164,15 +164,41 @@
             transform: scale(1.1);
         }
 
-        /* Estilo para o título */
         header h3 {
             margin: 0;
             font-size: 24px;
             color: #a469aa;
         }
 
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            justify-content: space-between;
+        }
 
-        /* Media Queries para responsividade */
+        .hamburger div {
+            height: 4px;
+            width: 100%;
+            background-color: #a469aa;
+        }
+
+        nav ul {
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #f7e1c9;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+
         @media (max-width: 768px) {
             .logo {
                 width: 80%;
@@ -199,9 +225,9 @@
             nav ul {
                 flex-direction: column;
                 align-items: center;
-                display: none; /* Menu escondido por padrão */
+                display: none; 
                 width: 100%;
-                background-color: #333; /* Cor de fundo para o menu */
+                background-color: #333; 
                 position: absolute;
                 top: 60px;
                 left: 0;
@@ -212,12 +238,12 @@
 
             nav ul li {
                 margin-bottom: 10px;
-                width: 100%; /* Itens ocupam toda a largura */
+                width: 100%; 
                 text-align: center;
             }
 
             nav ul.active {
-                display: flex; /* Menu visível quando a classe 'active' estiver presente */
+                display: flex;
             }
 
             .hamburger {
