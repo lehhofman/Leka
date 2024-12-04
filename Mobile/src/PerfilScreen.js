@@ -125,13 +125,31 @@ const ProfileScreen = () => {
         <Text style={styles.buttonText}>Certificados</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => setFriendsModalVisible(true)}>
-        <Text style={styles.buttonText}>Amigos</Text>
-      </TouchableOpacity>
-
       <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.editButton}>
         <Text style={styles.editButtonText}>ALTERAR PERFIL</Text>
       </TouchableOpacity>
+
+      {/* Modal para selecionar a imagem de perfil */}
+      <Modal visible={isModalVisible} transparent={true} animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Escolha uma imagem</Text>
+            <FlatList
+              data={profileImages}
+              horizontal
+              renderItem={({ item }) => (
+                <TouchableOpacity style={styles.imageItem} onPress={() => handleImageSelect(item)}>
+                  <Image source={{ uri: item }} style={styles.modalImage} />
+                </TouchableOpacity>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+            />
+            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
+              <Text style={styles.closeButtonText}>Fechar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       {/* Modal de Progresso */}
       <Modal visible={isProgressModalVisible} transparent={true} animationType="slide">
@@ -173,32 +191,9 @@ const ProfileScreen = () => {
         </View>
       </Modal>
 
-      {/* Modal de Amigos */}
-      <Modal visible={isFriendsModalVisible} transparent={true} animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Amigos</Text>
-            <ScrollView>
-              {acceptedFriends.length > 0 ? (
-                acceptedFriends.map((friend, index) => (
-                  <Text key={index} style={styles.modalText}>
-                    {friend.nome || 'Amigo'}
-                  </Text>
-                ))
-              ) : (
-                <Text style={styles.modalText}>Nenhum amigo encontrado</Text>
-              )}
-            </ScrollView>
-            <TouchableOpacity onPress={() => setFriendsModalVisible(false)} style={styles.closeButton}>
-              <Text style={styles.closeButtonText}>Fechar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-
       {/* Bottom Menu */}
       <View style={styles.bottomMenu}>
-      <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Game')}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Game')}>
           <MaterialIcons name="games" size={30} color="#4d1948" />
           <Text style={styles.menuText}>Jogo</Text>
         </TouchableOpacity>
@@ -218,7 +213,6 @@ const ProfileScreen = () => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
